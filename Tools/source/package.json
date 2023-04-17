@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "esbuild": "^0.14.38",
+    "nodemon": "^2.0.15"
+  },
+  "scripts": {
+    "dev": "nodemon",
+    "build": "node esbuild.config.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "tabletojson": "^2.0.7",
+    "xlsx": "^0.18.5"
+  }
+}

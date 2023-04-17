@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "outDir": "./dist",
+    "typeRoots": ["./node_modules/@types"],
+    "baseUrl": "./SRC",
+    "allowJs": false
+  },
+}

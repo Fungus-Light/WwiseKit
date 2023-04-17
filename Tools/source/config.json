@@ -1,0 +1,26 @@
+{
+    "Entrance": [
+        "./index.ts"
+    ],
+    "outputPath": "../",
+    "outfile": "../index.js",
+    "format": "cjs",
+    "bundle": true,
+    "external": [
+        "fs",
+        "path",
+        "util",
+        "stream",
+        "tls",
+        "events",
+        "net",
+        "http2",
+        "https",
+        "http",
+        "url",
+        "buffer",
+        "zlib",
+        "os",
+        "dns"
+    ]
+}

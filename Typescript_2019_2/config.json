@@ -1,0 +1,12 @@
+{
+    "Entrance": [
+        "./SRC/index.ts"
+    ],
+    "outputPath": "./dist",
+    "outfile": "./dist/index.js",
+    "format": "cjs",
+    "bundle": true,
+    "external": [
+        "autobahn"
+    ]
+}
