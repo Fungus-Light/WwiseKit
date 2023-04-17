@@ -13138,6 +13138,9 @@ function $Load(path) {
     return null;
   }
 }
+function $Parse(str) {
+  return load(str);
+}
 
 // SRC/WaapiGenerator.ts
 var import_fs2 = require("fs");
@@ -13329,12 +13332,24 @@ function ModifyName(propName) {
 function GetAllWwiseObjectDefine(basePath, targetFile, tabSize = 4) {
   let objList = ParseAllWwiseObj(basePath);
   let str = "";
+  str += 'import { WwiseObject } from "./WwiseObject";\n\n';
   objList.forEach((v, i) => {
     str += "/**\n";
     str += " * " + v.desc + "\n";
     str += " */\n";
     str += "export interface " + v.className + " extends WwiseObject{\n";
     v.props.forEach((p) => {
+      let restriction = p.restriction || "";
+      let $restrict = $Parse(restriction);
+      if ($restrict("table").length > 0) {
+      } else {
+        let resText = $restrict.text();
+        if (resText != "None") {
+          str += " ".repeat(tabSize) + "/**\n";
+          str += " ".repeat(tabSize) + " * " + $restrict.text() + "\n";
+          str += " ".repeat(tabSize) + " */\n";
+        }
+      }
       str += " ".repeat(tabSize) + ModifyName(p.name) + "?:" + GetTypeAlias(p.type) + ";\n";
     });
     str += "}\n\n";
@@ -13456,7 +13471,7 @@ function ConvertWaapiToFunction(path, dir, fileName) {
   });
   let genedFunctions = "";
   genedFunctions += 'import { Session, Result, Error } from "autobahn"\n';
-  genedFunctions += 'import { CallWaapi , JoinArgs } from "./Utils"\n';
+  genedFunctions += 'import { CallWaapi , JoinArgs } from "./Utils"\n\n';
   functions.forEach((v) => {
     if (!v.argSchema && !v.resultSchema) {
       genedFunctions += "/**\n";
@@ -13502,5 +13517,4 @@ console.log("Wwise Tools By Fungus Light!!!!!");
 GetWaapiReference_Functions("./chm/out/waapi_functions_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_functions.ts");
 GetWaapiReference_Topics("./chm/out/waapi_topics_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_topics.ts");
 ConvertWaapiToFunction("./chm/out/waapi_functions_index.html", "./chm/out/", "../Typescript_2019_2/SRC/Wwise/waapi_apis.ts");
-ParseAllWwiseObj("./chm/out/");
 GetAllWwiseObjectDefine("./chm/out/", "../Typescript_2019_2/@types/WwiseObjects/AllWwiseObject.d.ts");

@@ -11,6 +11,11 @@ function $Load(path:string){
     }
 }
 
+function $Parse(str:string){
+    return load(str)
+}
+
 export{
-    $Load
+    $Load,
+    $Parse
 }

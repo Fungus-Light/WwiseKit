@@ -1,4 +1,4 @@
-import { $Load } from "./Utils/CheerioHelper";
+import { $Load, $Parse } from "./Utils/CheerioHelper";
 import { writeFileSync, readdirSync, existsSync, readFileSync } from "fs"
 import { join, resolve } from "path"
 import { Tabletojson } from "tabletojson";
@@ -198,7 +198,6 @@ function ParseAllWwiseObj(basePath: string) {
             let path = join(dir, v)
             let obj = GetObjectJson(path)
             if (!obj.className.includes("(Deprecated)")) {
-                //writeFileSync("Test/"+obj.className+".json",JSON.stringify(obj))
                 objList.push(obj)
             } else {
                 console.log("From ParseAllWwiseObj :" + obj.className + " is deprecated")
@@ -218,8 +217,8 @@ let typeModify: any = {
     "Uint16": "number",
     "Uint32": "number",
     "Reference": "any",
-    "integer":"number",
-    "array":"Array<any>"
+    "integer": "number",
+    "array": "Array<any>"
 }
 
 function GetTypeAlias(type: string) {
@@ -241,15 +240,30 @@ function GetAllWwiseObjectDefine(basePath: string, targetFile: string, tabSize: 
     let objList = ParseAllWwiseObj(basePath)
 
     let str = ""
+
+    str += 'import { WwiseObject } from "./WwiseObject";\n\n'
+
     objList.forEach((v, i) => {
         str += "/**\n"
         str += " * " + v.desc + "\n"
         str += " */\n"
         str += "export interface " + v.className + " extends WwiseObject{\n"
         v.props.forEach((p: any) => {
-            // str += " ".repeat(tabSize) + "/**\n"
-            // str += " ".repeat(tabSize) + " * " + p.restriction + "\n"
-            // str += " ".repeat(tabSize) + " */\n"
+
+            let restriction = p.restriction || ""
+
+            let $restrict = $Parse(restriction)
+            if ($restrict("table").length > 0) {
+
+            } else {
+                let resText = $restrict.text()
+                if (resText != "None") {
+                    str += " ".repeat(tabSize) + "/**\n"
+                    str += " ".repeat(tabSize) + " * " + $restrict.text() + "\n"
+                    str += " ".repeat(tabSize) + " */\n"
+                }
+            }
+
             str += " ".repeat(tabSize) + ModifyName(p.name) + "?:" + GetTypeAlias(p.type) + ";\n"
         });
         str += "}\n\n"
@@ -259,33 +273,33 @@ function GetAllWwiseObjectDefine(basePath: string, targetFile: string, tabSize: 
     writeFileSync(targetFile, str)
 }
 
-function RenderSchemaToDef(schema:any,name:string){
+function RenderSchemaToDef(schema: any, name: string) {
     let str = ""
     let existExparam = false
-    if(schema){
+    if (schema) {
         str += `export declare interface ${name}{\n`
 
         let required = schema.required
         let properties = schema.properties
 
-        for(let key in properties){
+        for (let key in properties) {
             let realKey = key
-            if(required && required.includes(key)){
-            }else{
+            if (required && required.includes(key)) {
+            } else {
                 realKey += "?"
             }
 
             let keyType = "any"
 
-            if(properties[key].type){
+            if (properties[key].type) {
                 keyType = GetTypeAlias(properties[key].type)
             }
 
-            if(properties[key].description 
-                || (properties[key].minimum) 
-                || String(properties[key].minimum) === '0' 
+            if (properties[key].description
+                || (properties[key].minimum)
+                || String(properties[key].minimum) === '0'
                 || (properties[key].maximum)
-                || String(properties[key].maximum) === '0'){
+                || String(properties[key].maximum) === '0') {
 
                 str += `\t/**\n`
                 if (properties[key].description) {
@@ -297,7 +311,7 @@ function RenderSchemaToDef(schema:any,name:string){
                 if (properties[key].maximum || String(properties[key].maximum) === '0') {
                     str += `\t * Maximum: ${properties[key].maximum}\n`
                 }
-                
+
                 str += `\t */\n`
             }
 
@@ -307,19 +321,19 @@ function RenderSchemaToDef(schema:any,name:string){
 
         str += "}\n"
 
-        if(schema.patternProperties){
+        if (schema.patternProperties) {
             console.log("!!!!!!From RenderSchemaToDef: " + name + " has patternProperties")
             existExparam = true
         }
     }
-    
-    return [str,existExparam]
+
+    return [str, existExparam]
 }
 
 function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
     let result = GetApiFromFile(path)
 
-    let functions:any[] = []
+    let functions: any[] = []
 
     result.forEach((v) => {
         if (!v.api.includes("deprecated")) {
@@ -362,31 +376,31 @@ function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
 
                     if ((!needArg) && (!needResult)) {
                         functions.push({
-                            name:functionName,
-                            desc:desc,
-                            argSchema:null,
-                            resultSchema:null,
-                            api:v.api
+                            name: functionName,
+                            desc: desc,
+                            argSchema: null,
+                            resultSchema: null,
+                            api: v.api
                         })
-                    }else{
+                    } else {
 
-                        let argSchema:any = null
-                        let resultSchema:any = null
+                        let argSchema: any = null
+                        let resultSchema: any = null
 
-                        if(needArg){
+                        if (needArg) {
                             argSchema = ParseArgSchema(argfile)
                         }
 
-                        if(needResult){
+                        if (needResult) {
                             resultSchema = ParseArgSchema(resultfile)
                         }
 
                         functions.push({
-                            name:functionName,
-                            desc:desc,
-                            argSchema:argSchema,
-                            resultSchema:resultSchema,
-                            api:v.api
+                            name: functionName,
+                            desc: desc,
+                            argSchema: argSchema,
+                            resultSchema: resultSchema,
+                            api: v.api
                         })
                     }
                 }
@@ -402,53 +416,53 @@ function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
     let genedFunctions = ""
 
     genedFunctions += 'import { Session, Result, Error } from "autobahn"\n'
-    genedFunctions += 'import { CallWaapi , JoinArgs } from "./Utils"\n'
+    genedFunctions += 'import { CallWaapi , JoinArgs } from "./Utils"\n\n'
 
-    functions.forEach((v)=>{
-        
-        if(!v.argSchema && !v.resultSchema){ //无参数无返回值   
+    functions.forEach((v) => {
+
+        if (!v.argSchema && !v.resultSchema) { //无参数无返回值   
             genedFunctions += "/**\n"
             genedFunctions += " * " + v.desc + "\n"
-            genedFunctions += " */\n" 
+            genedFunctions += " */\n"
             genedFunctions += "export function $" + v.name + "(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n"
-            genedFunctions += "\tCallWaapi(session, \""+v.api+"\", null, onSuccess, onError, onComplete)\n"
-            
-            genedFunctions += "}\n\n"
-        }else{
-            if(v.argSchema){//有参数
+            genedFunctions += "\tCallWaapi(session, \"" + v.api + "\", null, onSuccess, onError, onComplete)\n"
 
-                let argTypeName = v.name+"_Args"
-                let argType = RenderSchemaToDef(v.argSchema,argTypeName)[0]
-                let existExparam = RenderSchemaToDef(v.argSchema,argTypeName)[1]
+            genedFunctions += "}\n\n"
+        } else {
+            if (v.argSchema) {//有参数
+
+                let argTypeName = v.name + "_Args"
+                let argType = RenderSchemaToDef(v.argSchema, argTypeName)[0]
+                let existExparam = RenderSchemaToDef(v.argSchema, argTypeName)[1]
 
                 genedFunctions += argType + "\n"
 
                 genedFunctions += "/**\n"
                 genedFunctions += " * " + v.desc + "\n"
                 genedFunctions += " */\n"
-                
-                if(existExparam){
+
+                if (existExparam) {
                     genedFunctions += "export function $" + v.name + `(session:Session,args?:${argTypeName},exArgs?:any,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n`
                     genedFunctions += "\targs = JoinArgs(args,exArgs)\n"
-                }else{
+                } else {
                     genedFunctions += "export function $" + v.name + `(session:Session,args?:${argTypeName},onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n`
                 }
-                
-                genedFunctions += "\tCallWaapi(session, \""+v.api+"\", args, onSuccess, onError, onComplete)\n"
+
+                genedFunctions += "\tCallWaapi(session, \"" + v.api + "\", args, onSuccess, onError, onComplete)\n"
                 genedFunctions += "}\n\n"
-            }else{
+            } else {
 
                 genedFunctions += "/**\n"
                 genedFunctions += " * " + v.desc + "\n"
                 genedFunctions += " */\n"
 
                 genedFunctions += "export function $" + v.name + "(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n"
-                genedFunctions += "\tCallWaapi(session, \""+v.api+"\", null, onSuccess, onError, onComplete)\n"
+                genedFunctions += "\tCallWaapi(session, \"" + v.api + "\", null, onSuccess, onError, onComplete)\n"
                 genedFunctions += "}\n\n"
             }
         }
     })
-    writeFileSync(fileName,genedFunctions)
+    writeFileSync(fileName, genedFunctions)
 }
 
 export {
