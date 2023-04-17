@@ -1089,7 +1089,7 @@ export function $ak_wwise_core_profiler_stopCapture(session:Session,onSuccess?:(
 /**
  * Saves the current project.
  */
-export function $ak_wwise_core_project_save(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{
+export function $ak_wwise_core_project_save(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void):void{
 	CallWaapi(session, "ak.wwise.core.project.save", null, onSuccess, onError, onComplete)
 }
 
@@ -1126,7 +1126,7 @@ export function $ak_wwise_core_remote_connect(session:Session,args?:ak_wwise_cor
 /**
  * Disconnects the Wwise Authoring application from a connected Wwise Sound Engine running executable.
  */
-export function $ak_wwise_core_remote_disconnect(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{
+export function $ak_wwise_core_remote_disconnect(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void):void{
 	CallWaapi(session, "ak.wwise.core.remote.disconnect", null, onSuccess, onError, onComplete)
 }
 
@@ -1354,14 +1354,14 @@ export function $ak_wwise_core_transport_getState(session:Session,args?:ak_wwise
 /**
  * Begins an undo group. Make sure to call ak.wwise.core.undo.endGroup exactly once for every ak.wwise.core.beginUndoGroup call you make. Calls to ak.wwise.core.undo.beginGroup can be nested.
  */
-export function $ak_wwise_core_undo_beginGroup(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{
+export function $ak_wwise_core_undo_beginGroup(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void):void{
 	CallWaapi(session, "ak.wwise.core.undo.beginGroup", null, onSuccess, onError, onComplete)
 }
 
 /**
  * Cancels the last undo group. Please note that this does not revert the operations made since the last ak.wwise.core.undo.beginGroup call.
  */
-export function $ak_wwise_core_undo_cancelGroup(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{
+export function $ak_wwise_core_undo_cancelGroup(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void):void{
 	CallWaapi(session, "ak.wwise.core.undo.cancelGroup", null, onSuccess, onError, onComplete)
 }
 
@@ -1410,21 +1410,21 @@ export function $ak_wwise_debug_enableAutomationMode(session:Session,args?:ak_ww
 /**
  * Private use only.
  */
-export function $ak_wwise_debug_testAssert(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{
+export function $ak_wwise_debug_testAssert(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void):void{
 	CallWaapi(session, "ak.wwise.debug.testAssert", null, onSuccess, onError, onComplete)
 }
 
 /**
  * Private use only.
  */
-export function $ak_wwise_debug_testCrash(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{
+export function $ak_wwise_debug_testCrash(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void):void{
 	CallWaapi(session, "ak.wwise.debug.testCrash", null, onSuccess, onError, onComplete)
 }
 
 /**
  * Bring Wwise main window to foreground. Refer to SetForegroundWindow and AllowSetForegroundWindow on MSDN for more information on the restrictions. Refer to ak.wwise.core.getInfo to obtain the Wwise process ID for AllowSetForegroundWindow.
  */
-export function $ak_wwise_ui_bringToForeground(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{
+export function $ak_wwise_ui_bringToForeground(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void):void{
 	CallWaapi(session, "ak.wwise.ui.bringToForeground", null, onSuccess, onError, onComplete)
 }
 

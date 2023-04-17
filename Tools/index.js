@@ -13145,6 +13145,17 @@ function $Parse(str) {
 // SRC/WaapiGenerator.ts
 var import_fs2 = require("fs");
 var import_path = require("path");
+
+// SRC/Utils/StringHelper.ts
+function RemoveAllEmpty(str) {
+  str = str.replaceAll(" ", "");
+  str = str.replaceAll("	", "");
+  str = str.replaceAll("\n", "");
+  str = str.replaceAll("\r", "");
+  return str;
+}
+
+// SRC/WaapiGenerator.ts
 function MatchFunctionName(str) {
   let reg = /^[a-zA-Z]+(\.[a-zA-Z]+)*$/;
   if (str.match(reg)) {
@@ -13259,21 +13270,19 @@ function GetObjectJson(path) {
   props.each((i, el) => {
     if (i != 0) {
       let p_name = $2(el).find("td").first().text();
-      p_name = p_name.replaceAll(" ", "");
+      p_name = RemoveAllEmpty(p_name);
       let p_type = $2(el).find("td").eq(2).text();
-      p_type = p_type.replaceAll(" ", "");
-      p_type = p_type.replaceAll("	", "");
-      p_type = p_type.replaceAll("\n", "");
-      p_type = p_type.replaceAll("\r", "");
+      p_type = RemoveAllEmpty(p_type);
       let p_defalut = $2(el).find("td").eq(3).text();
       let p_restriction = $2(el).find("td").eq(4).toString();
-      let p_readonly = $2(el).find("td").eq(5).text();
+      $2(el).find("td").eq(4).remove();
+      let p_readonly = $2(el).find("td").eq(4).text();
       propList.push({
         name: p_name,
         type: p_type,
         defaultValue: p_defalut,
         restriction: p_restriction,
-        readonly: p_readonly
+        readonly: p_readonly == "true"
       });
     }
   });
@@ -13297,6 +13306,7 @@ function ParseAllWwiseObj(basePath) {
       let obj = GetObjectJson(path);
       if (!obj.className.includes("(Deprecated)")) {
         objList.push(obj);
+        (0, import_fs2.writeFileSync)("Test/" + obj.className + ".json", JSON.stringify(obj));
       } else {
         console.log("From ParseAllWwiseObj :" + obj.className + " is deprecated");
       }
@@ -13347,6 +13357,9 @@ function GetAllWwiseObjectDefine(basePath, targetFile, tabSize = 4) {
         if (resText != "None") {
           str += " ".repeat(tabSize) + "/**\n";
           str += " ".repeat(tabSize) + " * " + $restrict.text() + "\n";
+          if (p.defaultValue != " ") {
+            str += " ".repeat(tabSize) + " * @default " + p.defaultValue + "\n";
+          }
           str += " ".repeat(tabSize) + " */\n";
         }
       }
@@ -13477,7 +13490,7 @@ function ConvertWaapiToFunction(path, dir, fileName) {
       genedFunctions += "/**\n";
       genedFunctions += " * " + v.desc + "\n";
       genedFunctions += " */\n";
-      genedFunctions += "export function $" + v.name + "(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n";
+      genedFunctions += "export function $" + v.name + "(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void):void{\n";
       genedFunctions += '	CallWaapi(session, "' + v.api + '", null, onSuccess, onError, onComplete)\n';
       genedFunctions += "}\n\n";
     } else {

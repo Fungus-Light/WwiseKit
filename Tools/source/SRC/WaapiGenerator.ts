@@ -2,6 +2,7 @@ import { $Load, $Parse } from "./Utils/CheerioHelper";
 import { writeFileSync, readdirSync, existsSync, readFileSync } from "fs"
 import { join, resolve } from "path"
 import { Tabletojson } from "tabletojson";
+import { RemoveAllEmpty } from "./Utils/StringHelper";
 
 class WaapiToken {
     api: string;
@@ -152,24 +153,24 @@ function GetObjectJson(path: string) {
     //console.log(props.length)
     props.each((i, el) => {
         if (i != 0) {
-            let p_name = $(el).find("td").first().text()
 
-            p_name = p_name.replaceAll(" ", "")
+            let p_name = $(el).find("td").first().text()
+            p_name = RemoveAllEmpty(p_name)
+
             let p_type = $(el).find("td").eq(2).text()
-            p_type = p_type.replaceAll(" ", "")
-            p_type = p_type.replaceAll("\t", "")
-            p_type = p_type.replaceAll("\n", "")
-            p_type = p_type.replaceAll("\r", "")
+            p_type = RemoveAllEmpty(p_type)
+
             let p_defalut = $(el).find("td").eq(3).text()
             let p_restriction = $(el).find("td").eq(4).toString()
-            let p_readonly = $(el).find("td").eq(5).text()
+            $(el).find("td").eq(4).remove()
+            let p_readonly = $(el).find("td").eq(4).text()
 
             propList.push({
                 name: p_name,
                 type: p_type,
                 defaultValue: p_defalut,
                 restriction: p_restriction,
-                readonly: p_readonly
+                readonly: p_readonly == "true"
             })
         }
     })
@@ -199,6 +200,7 @@ function ParseAllWwiseObj(basePath: string) {
             let obj = GetObjectJson(path)
             if (!obj.className.includes("(Deprecated)")) {
                 objList.push(obj)
+                writeFileSync("Test/" + obj.className + ".json", JSON.stringify(obj))
             } else {
                 console.log("From ParseAllWwiseObj :" + obj.className + " is deprecated")
             }
@@ -260,11 +262,19 @@ function GetAllWwiseObjectDefine(basePath: string, targetFile: string, tabSize: 
                 if (resText != "None") {
                     str += " ".repeat(tabSize) + "/**\n"
                     str += " ".repeat(tabSize) + " * " + $restrict.text() + "\n"
+                    if(p.defaultValue!=" "){
+                        str += " ".repeat(tabSize) + " * @default " + p.defaultValue + "\n"
+                    }
+
                     str += " ".repeat(tabSize) + " */\n"
                 }
             }
-
-            str += " ".repeat(tabSize) + ModifyName(p.name) + "?:" + GetTypeAlias(p.type) + ";\n"
+            // if(p.readonly){
+            //     str += " ".repeat(tabSize) + "readonly " + ModifyName(p.name) + ":" + GetTypeAlias(p.type) + ";\n"
+            // }else{
+                str += " ".repeat(tabSize) + ModifyName(p.name) + "?:" + GetTypeAlias(p.type) + ";\n"
+            // /}
+            
         });
         str += "}\n\n"
 
@@ -424,7 +434,7 @@ function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
             genedFunctions += "/**\n"
             genedFunctions += " * " + v.desc + "\n"
             genedFunctions += " */\n"
-            genedFunctions += "export function $" + v.name + "(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n"
+            genedFunctions += "export function $" + v.name + "(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void):void{\n"
             genedFunctions += "\tCallWaapi(session, \"" + v.api + "\", null, onSuccess, onError, onComplete)\n"
 
             genedFunctions += "}\n\n"
