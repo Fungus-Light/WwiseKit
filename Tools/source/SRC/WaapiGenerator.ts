@@ -475,6 +475,10 @@ function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
     writeFileSync(fileName, genedFunctions)
 }
 
+function ConvertTopicsToFunction(path: string, dir: string, fileName: string){
+
+}
+
 export {
     GetWaapiReference_Functions,
     GetWaapiReference_Topics,
@@ -482,5 +486,6 @@ export {
     GetObjectJson,
     ParseAllWwiseObj,
     GetAllWwiseObjectDefine,
-    ConvertWaapiToFunction
+    ConvertWaapiToFunction,
+    ConvertTopicsToFunction
 }
