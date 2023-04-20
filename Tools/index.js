@@ -13524,6 +13524,36 @@ function ConvertWaapiToFunction(path, dir, fileName) {
   });
   (0, import_fs2.writeFileSync)(fileName, genedFunctions);
 }
+function ConvertTopicsToFunction(path, dir, fileName) {
+  let result = GetApiFromFile(path);
+  let functions = [];
+  result.forEach((v) => {
+    if (!v.api.includes("deprecated")) {
+      let functionName = v.api.split(".").join("_");
+      functions.push({
+        name: functionName,
+        desc: v.desc,
+        api: v.api
+      });
+    } else {
+      console.log("From ConvertWaapiToFunction: " + v.api + " is deprecated");
+    }
+  });
+  let genedFunctions = "";
+  genedFunctions += 'import { Session, Result, Error } from "autobahn"\n';
+  genedFunctions += 'import { SimpleSubOptions, Sub } from "./Utils"\n\n';
+  functions.forEach((v) => {
+    genedFunctions += "/**\n";
+    genedFunctions += " * " + v.desc + "\n";
+    genedFunctions += " */\n";
+    genedFunctions += `export function T_${v.name}(session:Session,options:SimpleSubOptions,action: (kwargs: any) => void, onError?: (error: Error) => void){
+`;
+    genedFunctions += `	Sub(session, '${v.api}', options as any, action, onError);
+`;
+    genedFunctions += "}\n\n";
+  });
+  (0, import_fs2.writeFileSync)(fileName, genedFunctions);
+}
 
 // index.ts
 console.log("Wwise Tools By Fungus Light!!!!!");
@@ -13531,3 +13561,4 @@ GetWaapiReference_Functions("./chm/out/waapi_functions_index.html", "../Typescri
 GetWaapiReference_Topics("./chm/out/waapi_topics_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_topics.ts");
 ConvertWaapiToFunction("./chm/out/waapi_functions_index.html", "./chm/out/", "../Typescript_2019_2/SRC/Wwise/waapi_apis.ts");
 GetAllWwiseObjectDefine("./chm/out/", "../Typescript_2019_2/@types/WwiseObjects/AllWwiseObject.d.ts");
+ConvertTopicsToFunction("./chm/out/waapi_topics_index.html", "./chm/out/", "../Typescript_2019_2/SRC/Wwise/waapi_apis_subs.ts");

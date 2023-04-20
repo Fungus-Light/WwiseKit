@@ -262,7 +262,7 @@ function GetAllWwiseObjectDefine(basePath: string, targetFile: string, tabSize: 
                 if (resText != "None") {
                     str += " ".repeat(tabSize) + "/**\n"
                     str += " ".repeat(tabSize) + " * " + $restrict.text() + "\n"
-                    if(p.defaultValue!=" "){
+                    if (p.defaultValue != " ") {
                         str += " ".repeat(tabSize) + " * @default " + p.defaultValue + "\n"
                     }
 
@@ -272,9 +272,9 @@ function GetAllWwiseObjectDefine(basePath: string, targetFile: string, tabSize: 
             // if(p.readonly){
             //     str += " ".repeat(tabSize) + "readonly " + ModifyName(p.name) + ":" + GetTypeAlias(p.type) + ";\n"
             // }else{
-                str += " ".repeat(tabSize) + ModifyName(p.name) + "?:" + GetTypeAlias(p.type) + ";\n"
+            str += " ".repeat(tabSize) + ModifyName(p.name) + "?:" + GetTypeAlias(p.type) + ";\n"
             // /}
-            
+
         });
         str += "}\n\n"
 
@@ -475,8 +475,39 @@ function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
     writeFileSync(fileName, genedFunctions)
 }
 
-function ConvertTopicsToFunction(path: string, dir: string, fileName: string){
+function ConvertTopicsToFunction(path: string, dir: string, fileName: string) {
+    let result = GetApiFromFile(path)
+    //console.log(result)
+    let functions: any[] = []
 
+    result.forEach((v) => {
+        if (!v.api.includes("deprecated")) {
+            let functionName = v.api.split(".").join("_")
+
+            functions.push({
+                name: functionName,
+                desc: v.desc,
+                api: v.api
+            })
+
+        } else {
+            console.log("From ConvertWaapiToFunction: " + v.api + " is deprecated")
+        }
+    })
+
+    let genedFunctions = ""
+    genedFunctions += 'import { Session, Result, Error } from "autobahn"\n'
+    genedFunctions += 'import { SimpleSubOptions, Sub } from "./Utils"\n\n'
+    functions.forEach((v) => {
+        genedFunctions += "/**\n"
+        genedFunctions += " * " + v.desc + "\n"
+        genedFunctions += " */\n"
+
+        genedFunctions += `export function T_${v.name}(session:Session,options:SimpleSubOptions,action: (kwargs: any) => void, onError?: (error: Error) => void){\n`
+        genedFunctions += `\tSub(session, '${v.api}', options as any, action, onError);\n`
+        genedFunctions += "}\n\n"
+    })
+    writeFileSync(fileName, genedFunctions)
 }
 
 export {

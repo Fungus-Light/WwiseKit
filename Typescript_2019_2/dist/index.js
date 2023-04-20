@@ -1,20 +1,6 @@
 // SRC/Wwise/Utils.ts
 var import_autobahn = require("autobahn");
-function CallWaapi(session, api, args, onSuccess, onError, onComplete) {
-  session.call(api, [], args).then(
-    function(res) {
-      onSuccess?.call(this, res);
-    },
-    function(error) {
-      onError?.call(this, error);
-    }
-  ).then(
-    function() {
-      onComplete?.call(this);
-    }
-  );
-}
-function SimpleAction(url, action) {
+function SimpleConnect(url, action) {
   let connection = new import_autobahn.Connection({
     url,
     realm: "realm1",
@@ -31,17 +17,28 @@ function SimpleAction(url, action) {
   };
   connection.open();
 }
+function Sub(session, topic, options, action, onError) {
+  session.subscribe(topic, (args, _kwargs, details) => {
+    action(_kwargs);
+  }, options).catch((err) => {
+    onError(err);
+  });
+}
 var DEFAULT_URL = "ws://localhost:8080/waapi";
 
-// SRC/Wwise/waapi_apis.ts
-function $ak_wwise_ui_bringToForeground(session, onComplete, onSuccess, onError) {
-  CallWaapi(session, "ak.wwise.ui.bringToForeground", null, onSuccess, onError, onComplete);
+// SRC/Wwise/waapi_apis_subs.ts
+function T_ak_wwise_core_object_nameChanged(session, options, action, onError) {
+  Sub(session, "ak.wwise.core.object.nameChanged", options, action, onError);
 }
 
 // SRC/index.ts
 console.log("Wwise Tools By Fungus Light!!!!!");
-SimpleAction(DEFAULT_URL, (session, connection) => {
-  $ak_wwise_ui_bringToForeground(session, () => {
-    connection.close();
+SimpleConnect(DEFAULT_URL, (session, connection) => {
+  T_ak_wwise_core_object_nameChanged(session, {
+    return: ["id", "name", "path", "type", "parent", "workunit"]
+  }, (kwargs) => {
+    console.log("Name Changed: ", kwargs);
+  }, (error) => {
+    console.log("Error: ", error);
   });
 });
