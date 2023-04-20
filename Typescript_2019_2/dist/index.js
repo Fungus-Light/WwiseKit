@@ -25,6 +25,7 @@ function Sub(session, topic, options, action, onError) {
   });
 }
 var DEFAULT_URL = "ws://localhost:8080/waapi";
+var Log = console.log;
 
 // SRC/Wwise/waapi_apis_subs.ts
 function T_ak_wwise_core_object_nameChanged(session, options, action, onError) {
@@ -32,12 +33,13 @@ function T_ak_wwise_core_object_nameChanged(session, options, action, onError) {
 }
 
 // SRC/index.ts
-console.log("Wwise Tools By Fungus Light!!!!!");
+Log("Hello Waapi!!!!!");
 SimpleConnect(DEFAULT_URL, (session, connection) => {
   T_ak_wwise_core_object_nameChanged(session, {
     return: ["id", "name", "path", "type", "parent", "workunit"]
   }, (kwargs) => {
     console.log("Name Changed: ", kwargs);
+    connection.close();
   }, (error) => {
     console.log("Error: ", error);
   });

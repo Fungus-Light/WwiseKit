@@ -63,7 +63,7 @@ function Sub(session: Session, topic: string, options: SimpleSubOptions, action:
 
 const DEFAULT_URL = "ws://localhost:8080/waapi"
 
-const print = console.log
+const Log = console.log
 
 export {
     DEFAULT_URL,
@@ -73,5 +73,5 @@ export {
     SimpleConnect,
     Sub,
     SimpleSubOptions,
-    print
+    Log
 }
