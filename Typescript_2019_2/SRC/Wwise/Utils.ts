@@ -1,7 +1,7 @@
 import { Result, Error, Session, Connection } from "autobahn"
 
-function CallWaapi(session: Session, api: string, args: any, onSuccess: (res: Result) => void, onError: (error: Error) => void, onComplete: () => void) {
-    session.call(api, [], args).then(
+function CallWaapi(session: Session, api: string, args: any,options: SimpleSubOptions,onSuccess: (res: Result) => void, onError: (error: Error) => void, onComplete: () => void) {
+    session.call(api, [], args,options as any).then(
         function (res: Result) {
             onSuccess?.call(this, res)
         },

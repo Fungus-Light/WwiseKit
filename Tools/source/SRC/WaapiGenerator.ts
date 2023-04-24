@@ -426,7 +426,7 @@ function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
     let genedFunctions = ""
 
     genedFunctions += 'import { Session, Result, Error } from "autobahn"\n'
-    genedFunctions += 'import { CallWaapi , JoinArgs } from "./Utils"\n\n'
+    genedFunctions += 'import { CallWaapi , JoinArgs ,SimpleSubOptions } from "./Utils"\n\n'
 
     functions.forEach((v) => {
 
@@ -435,7 +435,7 @@ function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
             genedFunctions += " * " + v.desc + "\n"
             genedFunctions += " */\n"
             genedFunctions += "export function $" + v.name + "(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void):void{\n"
-            genedFunctions += "\tCallWaapi(session, \"" + v.api + "\", null, onSuccess, onError, onComplete)\n"
+            genedFunctions += "\tCallWaapi(session, \"" + v.api + "\", null, null, onSuccess, onError, onComplete)\n"
 
             genedFunctions += "}\n\n"
         } else {
@@ -452,13 +452,13 @@ function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
                 genedFunctions += " */\n"
 
                 if (existExparam) {
-                    genedFunctions += "export function $" + v.name + `(session:Session,args?:${argTypeName},exArgs?:any,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n`
+                    genedFunctions += "export function $" + v.name + `(session:Session,args?:${argTypeName},exArgs?:any,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n`
                     genedFunctions += "\targs = JoinArgs(args,exArgs)\n"
                 } else {
-                    genedFunctions += "export function $" + v.name + `(session:Session,args?:${argTypeName},onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n`
+                    genedFunctions += "export function $" + v.name + `(session:Session,args?:${argTypeName},options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n`
                 }
 
-                genedFunctions += "\tCallWaapi(session, \"" + v.api + "\", args, onSuccess, onError, onComplete)\n"
+                genedFunctions += "\tCallWaapi(session, \"" + v.api + "\", args, options, onSuccess, onError, onComplete)\n"
                 genedFunctions += "}\n\n"
             } else {
 
@@ -467,7 +467,7 @@ function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
                 genedFunctions += " */\n"
 
                 genedFunctions += "export function $" + v.name + "(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n"
-                genedFunctions += "\tCallWaapi(session, \"" + v.api + "\", null, onSuccess, onError, onComplete)\n"
+                genedFunctions += "\tCallWaapi(session, \"" + v.api + "\", null, null, onSuccess, onError, onComplete)\n"
                 genedFunctions += "}\n\n"
             }
         }
