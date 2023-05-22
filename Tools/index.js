@@ -3314,9 +3314,9 @@ function isFilter(s) {
   }
   return false;
 }
-function getLimit(filter4, data2, partLimit) {
+function getLimit(filter5, data2, partLimit) {
   const num = data2 != null ? parseInt(data2, 10) : NaN;
-  switch (filter4) {
+  switch (filter5) {
     case "first":
       return 1;
     case "nth":
@@ -3374,9 +3374,9 @@ function some(elements, selector, options = {}) {
   const [plain, filtered] = groupSelectors(parse(selector));
   return plain.length > 0 && elements.some(_compileToken(plain, options)) || filtered.some((sel) => filterBySelector(sel, elements, options).length > 0);
 }
-function filterByPosition(filter4, elems, data2, options) {
+function filterByPosition(filter5, elems, data2, options) {
   const num = typeof data2 === "string" ? parseInt(data2, 10) : NaN;
-  switch (filter4) {
+  switch (filter5) {
     case "first":
     case "lt":
       return elems;
@@ -3463,14 +3463,14 @@ function select(selector, root3, options = {}, limit = Infinity) {
 function findFilterElements(root3, selector, options, queryForSelector, totalLimit) {
   const filterIndex = selector.findIndex(isFilter);
   const sub = selector.slice(0, filterIndex);
-  const filter4 = selector[filterIndex];
+  const filter5 = selector[filterIndex];
   const partLimit = selector.length - 1 === filterIndex ? totalLimit : Infinity;
-  const limit = getLimit(filter4.name, filter4.data, partLimit);
+  const limit = getLimit(filter5.name, filter5.data, partLimit);
   if (limit === 0)
     return [];
   const elemsNoLimit = sub.length === 0 && !Array.isArray(root3) ? getChildren(root3).filter(isTag2) : sub.length === 0 ? (Array.isArray(root3) ? root3 : [root3]).filter(isTag2) : queryForSelector || sub.some(isTraversal) ? findElements(root3, [sub], options, limit) : filterElements(root3, [sub], options);
   const elems = elemsNoLimit.slice(0, limit);
-  let result = filterByPosition(filter4.name, elems, filter4.data, options);
+  let result = filterByPosition(filter5.name, elems, filter5.data, options);
   if (result.length === 0 || selector.length === filterIndex + 1) {
     return result;
   }
@@ -13217,7 +13217,11 @@ function GenJsonFromTokens(tokens) {
   });
   return json;
 }
-function RenderWaapiJsonToTs(obj, layer, tabSize = 4) {
+var filter4 = {
+  ["ak.wwise.core.object.getPropertyNames"]: true,
+  ["ak.wwise.core.plugin.getList"]: true
+};
+function RenderWaapiJsonToTs(obj, layer, tabSize = 4, prefix = "$", keepStr = false) {
   let str = "";
   for (let key in obj) {
     let value = obj[key];
@@ -13225,11 +13229,20 @@ function RenderWaapiJsonToTs(obj, layer, tabSize = 4) {
       if (value.desc && value.api) {
         let desc = value.desc;
         let api = value.api;
-        str += " ".repeat(layer * tabSize) + "/** " + desc + "*/\n";
-        str += " ".repeat(layer * tabSize) + key + ': "' + api + '",\n';
+        if (!filter4[api]) {
+          let functionName = prefix + api.replaceAll(".", "_");
+          str += " ".repeat(layer * tabSize) + "/** " + desc + "*/\n";
+          if (keepStr) {
+            str += " ".repeat(layer * tabSize) + key + ': "' + api + '",\n';
+          } else {
+            str += " ".repeat(layer * tabSize) + key + ": " + functionName + ",\n";
+          }
+        } else {
+          str += " ".repeat(layer * tabSize) + key + ': "This function is deprecated!!!  ' + api + '",\n';
+        }
       } else {
         str += " ".repeat(layer * tabSize) + key + ": {\n";
-        str += RenderWaapiJsonToTs(value, layer + 1, tabSize);
+        str += RenderWaapiJsonToTs(value, layer + 1, tabSize, prefix, keepStr);
         str += " ".repeat(layer * tabSize) + "},\n";
       }
     }
@@ -13241,8 +13254,8 @@ function GetWaapiReference_Functions(path, fileName) {
   let waapiTokens = CreateWaapiTokenList(result);
   let obj = GenJsonFromTokens(waapiTokens);
   if (obj) {
-    let ts = "const waapi_functions = { \n" + RenderWaapiJsonToTs(obj, 1, 4) + "\n}";
-    ts += "\n\nexport { waapi_functions }";
+    let ts = "const waapi_functions_names = { \n" + RenderWaapiJsonToTs(obj, 1, 4, "", true) + "\n}";
+    ts += "\n\nexport { waapi_functions_names }";
     (0, import_fs2.writeFileSync)(fileName, ts);
   }
 }
@@ -13251,8 +13264,8 @@ function GetWaapiReference_Topics(path, fileName) {
   let waapiTokens = CreateWaapiTokenList(result);
   let obj = GenJsonFromTokens(waapiTokens);
   if (obj) {
-    let ts = "const waapi_topics = { \n" + RenderWaapiJsonToTs(obj, 1, 4) + "\n}";
-    ts += "\n\nexport { waapi_topics }";
+    let ts = "const waapi_topics_names = { \n" + RenderWaapiJsonToTs(obj, 1, 4, "", true) + "\n}";
+    ts += "\n\nexport { waapi_topics_names }";
     (0, import_fs2.writeFileSync)(fileName, ts);
   }
 }
@@ -13490,7 +13503,7 @@ function ConvertWaapiToFunction(path, dir, fileName) {
       genedFunctions += "/**\n";
       genedFunctions += " * " + v.desc + "\n";
       genedFunctions += " */\n";
-      genedFunctions += "export function $" + v.name + "(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void):void{\n";
+      genedFunctions += "export function $" + v.name + "(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void){\n";
       genedFunctions += '	CallWaapi(session, "' + v.api + '", null, null, onSuccess, onError, onComplete)\n';
       genedFunctions += "}\n\n";
     } else {
@@ -13503,11 +13516,11 @@ function ConvertWaapiToFunction(path, dir, fileName) {
         genedFunctions += " * " + v.desc + "\n";
         genedFunctions += " */\n";
         if (existExparam) {
-          genedFunctions += "export function $" + v.name + `(session:Session,args?:${argTypeName},exArgs?:any,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{
+          genedFunctions += "export function $" + v.name + `(session:Session,args?:${argTypeName},exArgs?:any,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
 `;
           genedFunctions += "	args = JoinArgs(args,exArgs)\n";
         } else {
-          genedFunctions += "export function $" + v.name + `(session:Session,args?:${argTypeName},options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{
+          genedFunctions += "export function $" + v.name + `(session:Session,args?:${argTypeName},options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
 `;
         }
         genedFunctions += '	CallWaapi(session, "' + v.api + '", args, options, onSuccess, onError, onComplete)\n';
@@ -13516,12 +13529,19 @@ function ConvertWaapiToFunction(path, dir, fileName) {
         genedFunctions += "/**\n";
         genedFunctions += " * " + v.desc + "\n";
         genedFunctions += " */\n";
-        genedFunctions += "export function $" + v.name + "(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n";
+        genedFunctions += "export function $" + v.name + "(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){\n";
         genedFunctions += '	CallWaapi(session, "' + v.api + '", null, null, onSuccess, onError, onComplete)\n';
         genedFunctions += "}\n\n";
       }
     }
   });
+  let waapiTokens = CreateWaapiTokenList(result);
+  let obj = GenJsonFromTokens(waapiTokens);
+  if (obj) {
+    let ts = "const waapi_functions = { \n" + RenderWaapiJsonToTs(obj, 1, 4, "$") + "\n}";
+    ts += "\n\nexport { waapi_functions }";
+    genedFunctions += "\n\n" + ts;
+  }
   (0, import_fs2.writeFileSync)(fileName, genedFunctions);
 }
 function ConvertTopicsToFunction(path, dir, fileName) {
@@ -13552,13 +13572,20 @@ function ConvertTopicsToFunction(path, dir, fileName) {
 `;
     genedFunctions += "}\n\n";
   });
+  let waapiTokens = CreateWaapiTokenList(result);
+  let obj = GenJsonFromTokens(waapiTokens);
+  if (obj) {
+    let ts = "const waapi_topics = { \n" + RenderWaapiJsonToTs(obj, 1, 4, "T_") + "\n}";
+    ts += "\n\nexport { waapi_topics }";
+    genedFunctions += "\n\n" + ts;
+  }
   (0, import_fs2.writeFileSync)(fileName, genedFunctions);
 }
 
 // index.ts
 console.log("Wwise Tools By Fungus Light!!!!!");
-GetWaapiReference_Functions("./chm/out/waapi_functions_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_functions.ts");
-GetWaapiReference_Topics("./chm/out/waapi_topics_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_topics.ts");
+GetWaapiReference_Functions("./chm/out/waapi_functions_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_functions_names.ts");
+GetWaapiReference_Topics("./chm/out/waapi_topics_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_topics_names.ts");
 ConvertWaapiToFunction("./chm/out/waapi_functions_index.html", "./chm/out/", "../Typescript_2019_2/SRC/Wwise/waapi_apis.ts");
 GetAllWwiseObjectDefine("./chm/out/", "../Typescript_2019_2/@types/WwiseObjects/AllWwiseObject.d.ts");
-ConvertTopicsToFunction("./chm/out/waapi_topics_index.html", "./chm/out/", "../Typescript_2019_2/SRC/Wwise/waapi_apis_subs.ts");
+ConvertTopicsToFunction("./chm/out/waapi_topics_index.html", "./chm/out/", "../Typescript_2019_2/SRC/Wwise/waapi_apis_topics.ts");

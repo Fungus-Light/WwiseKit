@@ -1,4 +1,4 @@
-const waapi_topics = { 
+const waapi_topics_names = { 
     ak: {
         wwise: {
             core: {
@@ -86,4 +86,4 @@ const waapi_topics = {
 
 }
 
-export { waapi_topics }
+export { waapi_topics_names }

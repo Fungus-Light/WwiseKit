@@ -1,4 +1,4 @@
-const waapi_functions = { 
+const waapi_functions_names = { 
     ak: {
         soundengine: {
             /** Executes an action on all nodes that are referenced in the specified event in a Play action. See AK::SoundEngine::ExecuteActionOnEvent.*/
@@ -81,8 +81,7 @@ const waapi_functions = {
                     getPropertyAndReferenceNames: "ak.wwise.core.object.getPropertyAndReferenceNames",
                     /** Retrieves information about an object property.*/
                     getPropertyInfo: "ak.wwise.core.object.getPropertyInfo",
-                    /** ak.wwise.core.object.getTypes */
-                    getPropertyNames: "ak.wwise.core.object.getPropertyNames",
+                    getPropertyNames: "This function is deprecated!!!  ak.wwise.core.object.getPropertyNames",
                     /** Returns true if a property is enabled based on the values of the properties it depends on.*/
                     isPropertyEnabled: "ak.wwise.core.object.isPropertyEnabled",
                     /** Moves an object to the given parent. Returns the moved object.*/
@@ -101,8 +100,7 @@ const waapi_functions = {
                     setReference: "ak.wwise.core.object.setReference",
                 },
                 plugin: {
-                    /** ak.wwise.core.plugin.getProperties */
-                    getList: "ak.wwise.core.plugin.getList",
+                    getList: "This function is deprecated!!!  ak.wwise.core.plugin.getList",
                 },
                 profiler: {
                     /** Returns the current time of the specified profiler cursor, in milliseconds.*/
@@ -216,4 +214,4 @@ const waapi_functions = {
 
 }
 
-export { waapi_functions }
+export { waapi_functions_names }

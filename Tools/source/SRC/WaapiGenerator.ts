@@ -87,7 +87,12 @@ function GenJsonFromTokens(tokens: WaapiToken[]) {
     return json
 }
 
-function RenderWaapiJsonToTs(obj: any, layer: number, tabSize: number = 4) {
+let filter:any = {
+    ["ak.wwise.core.object.getPropertyNames"] : true,
+    ["ak.wwise.core.plugin.getList"] : true,
+}
+
+function RenderWaapiJsonToTs(obj: any, layer: number, tabSize: number = 4, prefix:string = "$",keepStr:boolean = false) {
     let str = ""
     for (let key in obj) {
         let value = obj[key]
@@ -95,11 +100,22 @@ function RenderWaapiJsonToTs(obj: any, layer: number, tabSize: number = 4) {
             if (value.desc && value.api) {
                 let desc = value.desc
                 let api = value.api
-                str += " ".repeat(layer * tabSize) + "/** " + desc + "*/\n"
-                str += " ".repeat(layer * tabSize) + key + ": \"" + api + "\",\n"
+                if (!filter[api]){
+                    let functionName = prefix + (api as string).replaceAll(".", "_")
+                    str += " ".repeat(layer * tabSize) + "/** " + desc + "*/\n"
+                    if(keepStr){
+                        str += " ".repeat(layer * tabSize) + key + ": \"" + api + "\",\n"
+                    }else{
+                        str += " ".repeat(layer * tabSize) + key + ": " + functionName + ",\n"
+                    }
+                    
+                }else{
+                    str += " ".repeat(layer * tabSize) + key + ": \"This function is deprecated!!!  " + api + "\",\n"
+                }
+                
             } else {
                 str += " ".repeat(layer * tabSize) + key + ": {\n"
-                str += RenderWaapiJsonToTs(value, layer + 1, tabSize)
+                str += RenderWaapiJsonToTs(value, layer + 1, tabSize,prefix,keepStr)
                 str += " ".repeat(layer * tabSize) + "},\n"
             }
         }
@@ -114,8 +130,8 @@ function GetWaapiReference_Functions(path: string, fileName: string) {
     let obj = GenJsonFromTokens(waapiTokens)
 
     if (obj) {
-        let ts = "const waapi_functions = { \n" + RenderWaapiJsonToTs(obj, 1, 4) + "\n}"
-        ts += "\n\nexport { waapi_functions }"
+        let ts = "const waapi_functions_names = { \n" + RenderWaapiJsonToTs(obj, 1, 4,"",true) + "\n}"
+        ts += "\n\nexport { waapi_functions_names }"
         writeFileSync(fileName, ts)
     }
 }
@@ -127,8 +143,8 @@ function GetWaapiReference_Topics(path: string, fileName: string) {
     let obj = GenJsonFromTokens(waapiTokens)
 
     if (obj) {
-        let ts = "const waapi_topics = { \n" + RenderWaapiJsonToTs(obj, 1, 4) + "\n}"
-        ts += "\n\nexport { waapi_topics }"
+        let ts = "const waapi_topics_names = { \n" + RenderWaapiJsonToTs(obj, 1, 4,"",true) + "\n}"
+        ts += "\n\nexport { waapi_topics_names }"
         writeFileSync(fileName, ts)
     }
 }
@@ -434,7 +450,7 @@ function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
             genedFunctions += "/**\n"
             genedFunctions += " * " + v.desc + "\n"
             genedFunctions += " */\n"
-            genedFunctions += "export function $" + v.name + "(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void):void{\n"
+            genedFunctions += "export function $" + v.name + "(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void){\n"
             genedFunctions += "\tCallWaapi(session, \"" + v.api + "\", null, null, onSuccess, onError, onComplete)\n"
 
             genedFunctions += "}\n\n"
@@ -452,10 +468,10 @@ function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
                 genedFunctions += " */\n"
 
                 if (existExparam) {
-                    genedFunctions += "export function $" + v.name + `(session:Session,args?:${argTypeName},exArgs?:any,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n`
+                    genedFunctions += "export function $" + v.name + `(session:Session,args?:${argTypeName},exArgs?:any,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){\n`
                     genedFunctions += "\targs = JoinArgs(args,exArgs)\n"
                 } else {
-                    genedFunctions += "export function $" + v.name + `(session:Session,args?:${argTypeName},options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n`
+                    genedFunctions += "export function $" + v.name + `(session:Session,args?:${argTypeName},options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){\n`
                 }
 
                 genedFunctions += "\tCallWaapi(session, \"" + v.api + "\", args, options, onSuccess, onError, onComplete)\n"
@@ -466,12 +482,23 @@ function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
                 genedFunctions += " * " + v.desc + "\n"
                 genedFunctions += " */\n"
 
-                genedFunctions += "export function $" + v.name + "(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void):void{\n"
+                genedFunctions += "export function $" + v.name + "(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){\n"
                 genedFunctions += "\tCallWaapi(session, \"" + v.api + "\", null, null, onSuccess, onError, onComplete)\n"
                 genedFunctions += "}\n\n"
             }
         }
     })
+
+    let waapiTokens = CreateWaapiTokenList(result)
+    let obj = GenJsonFromTokens(waapiTokens)
+
+    if (obj) {
+        let ts = "const waapi_functions = { \n" + RenderWaapiJsonToTs(obj, 1, 4,"$") + "\n}"
+        ts += "\n\nexport { waapi_functions }"
+        
+        genedFunctions += "\n\n" + ts
+    }
+
     writeFileSync(fileName, genedFunctions)
 }
 
@@ -506,7 +533,19 @@ function ConvertTopicsToFunction(path: string, dir: string, fileName: string) {
         genedFunctions += `export function T_${v.name}(session:Session,options:SimpleSubOptions,action: (kwargs: any) => void, onError?: (error: Error) => void){\n`
         genedFunctions += `\tSub(session, '${v.api}', options as any, action, onError);\n`
         genedFunctions += "}\n\n"
+
     })
+
+    let waapiTokens = CreateWaapiTokenList(result)
+    let obj = GenJsonFromTokens(waapiTokens)
+
+    if (obj) {
+        let ts = "const waapi_topics = { \n" + RenderWaapiJsonToTs(obj, 1, 4,"T_") + "\n}"
+        ts += "\n\nexport { waapi_topics }"
+
+        genedFunctions += ("\n\n" + ts)
+    }
+
     writeFileSync(fileName, genedFunctions)
 }
 
