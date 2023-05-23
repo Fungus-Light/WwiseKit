@@ -15,6 +15,23 @@ function CallWaapi(session: Session, api: string, args: any, options: SimpleSubO
     );
 }
 
+function CallWaapiPromise(session: Session, api: string, args: any, options: SimpleSubOptions, onComplete: () => void):Promise<Result> {
+    return new Promise((resolve, reject) => {
+        session.call(api, [], args, options as any).then(
+            function (res: Result) {
+                resolve(res)
+            },
+            function (error: Error) {
+                reject(error)
+            }
+        ).then(
+            function () {
+                onComplete?.call(this)
+            }
+        );
+    })
+    
+}
 
 function JoinArgs(args: any, exArgs: any) {
     for (const k in exArgs) {
@@ -69,13 +86,13 @@ const Log = console.log
 interface ITask {
     onCompleted: () => void;
     runTask: (input: any) => any;
-    getOutput: () => any;
+    getOutput: () => TaskTransData;
     regCompleteAction: (action: () => void) => void;
 }
 
 class TaskQueue implements ITask {
     protected tasks: ITask[] = [];
-    protected output: any = null;
+    protected output: TaskTransData = null;
     public onCompleted: () => void;
 
     runTask(input: any) {
@@ -109,15 +126,11 @@ class TaskQueue implements ITask {
         }
     }
 
-    clear() {
-        this.tasks = [];
-    }
-
     regCompleteAction(action: () => void) {
         this.onCompleted = action;
     }
 
-    getOutput() {
+    getOutput():TaskTransData {
         return this.output;
     }
 
@@ -130,15 +143,20 @@ class TaskQueue implements ITask {
         this.onCompleted();
     }
 
-    constructor() {
-        this.onCompleted = () => { };
+    constructor(_tasks?:ITask[]){
+        if(_tasks == undefined){
+            this.tasks = []
+        }else{
+            this.tasks = _tasks
+        }
+
     }
 
 }
 
-class CallWaapiTaskOutPut {
+class TaskTransData {
     data: any;
-    type:"success"|"error"
+    type:"success"|"error"|"init"
 }
 
 class CallWaapiTask implements ITask {
@@ -146,7 +164,7 @@ class CallWaapiTask implements ITask {
     private api: string;
     private args: any;
     private options: SimpleSubOptions;
-    private output:CallWaapiTaskOutPut
+    private output:TaskTransData
     public onCompleted: () => void;
 
     constructor(session: Session, api: string) {
@@ -156,12 +174,16 @@ class CallWaapiTask implements ITask {
 
     getInput: () => any;
     
-    public runTask(input: {
-        args: any,
-        options: SimpleSubOptions
-    }) {
-        this.args = input.args;
-        this.options = input.options;
+    public runTask(input: TaskTransData) {
+
+        if(input.type == "error"){
+            this.output = input
+            this.onCompleted?.call(this);
+            return
+        }
+        //Log("CallWaapiTask ",input)
+        this.args = input.data.args;
+        this.options = input.data.options;
         this.session.call(this.api, [], this.args, this.options as any).then(
             (res: Result) => {
                 this.output = {
@@ -194,14 +216,18 @@ class CallWaapiTask implements ITask {
 //SimpleTask Implement
 class SimpleTask implements ITask {
     output:any
-    handler: (input: any) => any;
-    constructor(handler: (input: any) => any) {
+    handler: (inputData: any) => any;
+    constructor(handler: (inputData: any) => any) {
         this.handler = handler
     }
     public onCompleted: () => void;
 
-    public runTask(input: any) {
-        this.output = this.handler(input);
+    public runTask(input: TaskTransData) {
+        if(input.type == "error"){
+            this.output = input
+        }else{
+            this.output = this.handler(input.data);
+        }
         this.onCompleted();
     }
 
@@ -223,13 +249,14 @@ export {
     DEFAULT_URL,
 
     CallWaapi,
+    CallWaapiPromise,
     JoinArgs,
     SimpleConnect,
     Sub,
     SimpleSubOptions,
     Log,
 
-    CallWaapiTaskOutPut,
+    TaskTransData,
     CallWaapiTask,
     SimpleTask,
     TaskQueue

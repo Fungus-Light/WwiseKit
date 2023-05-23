@@ -1,7 +1,7 @@
 import { Session, Result, Error } from "autobahn"
-import { CallWaapi , JoinArgs ,SimpleSubOptions } from "./Utils"
+import { CallWaapiPromise , JoinArgs ,SimpleSubOptions } from "./Utils"
 
-export declare interface ak_soundengine_executeActionOnEvent_Args{
+declare interface ak_soundengine_executeActionOnEvent_Args{
 	/**
 	 * Either the ID (GUID), name or Short ID of the event.
 	 */
@@ -35,11 +35,11 @@ export declare interface ak_soundengine_executeActionOnEvent_Args{
 /**
  * Executes an action on all nodes that are referenced in the specified event in a Play action. See AK::SoundEngine::ExecuteActionOnEvent.
  */
-export function $ak_soundengine_executeActionOnEvent(session:Session,args?:ak_soundengine_executeActionOnEvent_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.executeActionOnEvent", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_executeActionOnEvent(session:Session,args?:ak_soundengine_executeActionOnEvent_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.executeActionOnEvent", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_postEvent_Args{
+declare interface ak_soundengine_postEvent_Args{
 	/**
 	 * Either the ID (GUID), name, or Short ID of the Event.
 	 */
@@ -55,11 +55,11 @@ export declare interface ak_soundengine_postEvent_Args{
 /**
  * Asynchronously post an Event to the sound engine (by event ID). See AK::SoundEngine::PostEvent.
  */
-export function $ak_soundengine_postEvent(session:Session,args?:ak_soundengine_postEvent_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.postEvent", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_postEvent(session:Session,args?:ak_soundengine_postEvent_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.postEvent", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_postMsgMonitor_Args{
+declare interface ak_soundengine_postMsgMonitor_Args{
 	/**
 	 * The message to display.
 	 */
@@ -69,11 +69,11 @@ export declare interface ak_soundengine_postMsgMonitor_Args{
 /**
  * Display a message in the Profiler's Capture Log view.
  */
-export function $ak_soundengine_postMsgMonitor(session:Session,args?:ak_soundengine_postMsgMonitor_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.postMsgMonitor", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_postMsgMonitor(session:Session,args?:ak_soundengine_postMsgMonitor_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.postMsgMonitor", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_postTrigger_Args{
+declare interface ak_soundengine_postTrigger_Args{
 	/**
 	 * Either the ID (GUID), name, or Short ID of the Trigger.
 	 */
@@ -89,11 +89,11 @@ export declare interface ak_soundengine_postTrigger_Args{
 /**
  * Posts the specified Trigger. See AK::SoundEngine::PostTrigger.
  */
-export function $ak_soundengine_postTrigger(session:Session,args?:ak_soundengine_postTrigger_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.postTrigger", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_postTrigger(session:Session,args?:ak_soundengine_postTrigger_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.postTrigger", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_registerGameObj_Args{
+declare interface ak_soundengine_registerGameObj_Args{
 	/**
 	 * ID of the game object to be registered.\n A game object ID, unsigned integer 64-bit.
 	 * Minimum: 0
@@ -109,11 +109,11 @@ export declare interface ak_soundengine_registerGameObj_Args{
 /**
  * Register a game object. Registering a game object twice does nothing. Unregistering it once unregisters it no matter how many times it has been registered. See AK::SoundEngine::RegisterGameObj.
  */
-export function $ak_soundengine_registerGameObj(session:Session,args?:ak_soundengine_registerGameObj_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.registerGameObj", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_registerGameObj(session:Session,args?:ak_soundengine_registerGameObj_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.registerGameObj", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_resetRTPCValue_Args{
+declare interface ak_soundengine_resetRTPCValue_Args{
 	/**
 	 * Either the ID (GUID), name, or Short ID of the real-time parameter control.
 	 */
@@ -129,11 +129,11 @@ export declare interface ak_soundengine_resetRTPCValue_Args{
 /**
  * Resets the value of a real-time parameter control to its default value, as specified in the Wwise project. See AK::SoundEngine::ResetRTPCValue.
  */
-export function $ak_soundengine_resetRTPCValue(session:Session,args?:ak_soundengine_resetRTPCValue_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.resetRTPCValue", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_resetRTPCValue(session:Session,args?:ak_soundengine_resetRTPCValue_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.resetRTPCValue", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_seekOnEvent_Args{
+declare interface ak_soundengine_seekOnEvent_Args{
 	/**
 	 * Either the ID (GUID), name, or Short ID of the Event.
 	 */
@@ -169,11 +169,11 @@ export declare interface ak_soundengine_seekOnEvent_Args{
 /**
  * Seeks inside all playing objects that are referenced in Play Actions of the specified Event. See AK::SoundEngine::SeekOnEvent.
  */
-export function $ak_soundengine_seekOnEvent(session:Session,args?:ak_soundengine_seekOnEvent_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.seekOnEvent", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_seekOnEvent(session:Session,args?:ak_soundengine_seekOnEvent_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.seekOnEvent", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_setDefaultListeners_Args{
+declare interface ak_soundengine_setDefaultListeners_Args{
 	/**
 	 * Array of listener game object IDs. Game objects must have been previously registered.
 	 */
@@ -183,11 +183,11 @@ export declare interface ak_soundengine_setDefaultListeners_Args{
 /**
  * Sets the default active listeners for all subsequent game objects that are registered. See AK::SoundEngine::SetDefaultListeners.
  */
-export function $ak_soundengine_setDefaultListeners(session:Session,args?:ak_soundengine_setDefaultListeners_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.setDefaultListeners", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_setDefaultListeners(session:Session,args?:ak_soundengine_setDefaultListeners_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.setDefaultListeners", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_setGameObjectAuxSendValues_Args{
+declare interface ak_soundengine_setGameObjectAuxSendValues_Args{
 	/**
 	 * Associated game object ID.\n A game object ID, unsigned integer 64-bit.
 	 * Minimum: 0
@@ -203,11 +203,11 @@ export declare interface ak_soundengine_setGameObjectAuxSendValues_Args{
 /**
  * Sets the Auxiliary Busses to route the specified game object. See AK::SoundEngine::SetGameObjectAuxSendValues.
  */
-export function $ak_soundengine_setGameObjectAuxSendValues(session:Session,args?:ak_soundengine_setGameObjectAuxSendValues_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.setGameObjectAuxSendValues", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_setGameObjectAuxSendValues(session:Session,args?:ak_soundengine_setGameObjectAuxSendValues_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.setGameObjectAuxSendValues", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_setGameObjectOutputBusVolume_Args{
+declare interface ak_soundengine_setGameObjectOutputBusVolume_Args{
 	/**
 	 * Associated emitter game object ID.\n A game object ID, unsigned integer 64-bit.
 	 * Minimum: 0
@@ -229,11 +229,11 @@ export declare interface ak_soundengine_setGameObjectOutputBusVolume_Args{
 /**
  * Set the output bus volume (direct) to be used for the specified game object. See AK::SoundEngine::SetGameObjectOutputBusVolume.
  */
-export function $ak_soundengine_setGameObjectOutputBusVolume(session:Session,args?:ak_soundengine_setGameObjectOutputBusVolume_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.setGameObjectOutputBusVolume", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_setGameObjectOutputBusVolume(session:Session,args?:ak_soundengine_setGameObjectOutputBusVolume_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.setGameObjectOutputBusVolume", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_setListeners_Args{
+declare interface ak_soundengine_setListeners_Args{
 	/**
 	 * Emitter game object.\n A game object ID, unsigned integer 64-bit.
 	 * Minimum: 0
@@ -249,11 +249,11 @@ export declare interface ak_soundengine_setListeners_Args{
 /**
  * Sets a single game object's active listeners. By default, all new game objects have no listeners active, but this behavior can be overridden with SetDefaultListeners(). Inactive listeners are not computed. See AK::SoundEngine::SetListeners.
  */
-export function $ak_soundengine_setListeners(session:Session,args?:ak_soundengine_setListeners_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.setListeners", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_setListeners(session:Session,args?:ak_soundengine_setListeners_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.setListeners", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_setListenerSpatialization_Args{
+declare interface ak_soundengine_setListenerSpatialization_Args{
 	/**
 	 * Listener game object ID.\n A game object ID, unsigned integer 64-bit.
 	 * Minimum: 0
@@ -279,11 +279,11 @@ export declare interface ak_soundengine_setListenerSpatialization_Args{
 /**
  * Sets a listener's spatialization parameters. This lets you define listener-specific volume offsets for each audio channel. See AK::SoundEngine::SetListenerSpatialization.
  */
-export function $ak_soundengine_setListenerSpatialization(session:Session,args?:ak_soundengine_setListenerSpatialization_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.setListenerSpatialization", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_setListenerSpatialization(session:Session,args?:ak_soundengine_setListenerSpatialization_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.setListenerSpatialization", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_setMultiplePositions_Args{
+declare interface ak_soundengine_setMultiplePositions_Args{
 	/**
 	 * Game Object identifier.\n A game object ID, unsigned integer 64-bit.
 	 * Minimum: 0
@@ -305,11 +305,11 @@ export declare interface ak_soundengine_setMultiplePositions_Args{
 /**
  * Sets multiple positions for a single game object. Setting multiple positions for a single game object is a way to simulate multiple emission sources while using the resources of only one voice. This can be used to simulate wall openings, area sounds, or multiple objects emitting the same sound in the same area. See AK::SoundEngine::SetMultiplePositions.
  */
-export function $ak_soundengine_setMultiplePositions(session:Session,args?:ak_soundengine_setMultiplePositions_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.setMultiplePositions", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_setMultiplePositions(session:Session,args?:ak_soundengine_setMultiplePositions_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.setMultiplePositions", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_setObjectObstructionAndOcclusion_Args{
+declare interface ak_soundengine_setObjectObstructionAndOcclusion_Args{
 	/**
 	 * Emitter game object ID.\n A game object ID, unsigned integer 64-bit.
 	 * Minimum: 0
@@ -335,11 +335,11 @@ export declare interface ak_soundengine_setObjectObstructionAndOcclusion_Args{
 /**
  * Set a game object's obstruction and occlusion levels. This function is used to affect how an object should be heard by a specific listener. See AK::SoundEngine::SetObjectObstructionAndOcclusion.
  */
-export function $ak_soundengine_setObjectObstructionAndOcclusion(session:Session,args?:ak_soundengine_setObjectObstructionAndOcclusion_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.setObjectObstructionAndOcclusion", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_setObjectObstructionAndOcclusion(session:Session,args?:ak_soundengine_setObjectObstructionAndOcclusion_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.setObjectObstructionAndOcclusion", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_setPosition_Args{
+declare interface ak_soundengine_setPosition_Args{
 	/**
 	 * Game Object identifier.\n A game object ID, unsigned integer 64-bit.
 	 * Minimum: 0
@@ -355,11 +355,11 @@ export declare interface ak_soundengine_setPosition_Args{
 /**
  * Sets the position of a game object. See AK::SoundEngine::SetPosition.
  */
-export function $ak_soundengine_setPosition(session:Session,args?:ak_soundengine_setPosition_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.setPosition", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_setPosition(session:Session,args?:ak_soundengine_setPosition_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.setPosition", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_setRTPCValue_Args{
+declare interface ak_soundengine_setRTPCValue_Args{
 	/**
 	 * Either the ID (GUID), name, or Short ID of the real-time parameter control.
 	 */
@@ -379,11 +379,11 @@ export declare interface ak_soundengine_setRTPCValue_Args{
 /**
  * Sets the value of a real-time parameter control. See AK::SoundEngine::SetRTPCValue.
  */
-export function $ak_soundengine_setRTPCValue(session:Session,args?:ak_soundengine_setRTPCValue_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.setRTPCValue", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_setRTPCValue(session:Session,args?:ak_soundengine_setRTPCValue_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.setRTPCValue", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_setScalingFactor_Args{
+declare interface ak_soundengine_setScalingFactor_Args{
 	/**
 	 * The game object identifier.\n A game object ID, unsigned integer 64-bit.
 	 * Minimum: 0
@@ -399,11 +399,11 @@ export declare interface ak_soundengine_setScalingFactor_Args{
 /**
  * Sets the scaling factor of a game object. You can modify the attenuation computations on this game object to simulate sounds with a larger or smaller affected areas. See AK::SoundEngine::SetScalingFactor.
  */
-export function $ak_soundengine_setScalingFactor(session:Session,args?:ak_soundengine_setScalingFactor_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.setScalingFactor", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_setScalingFactor(session:Session,args?:ak_soundengine_setScalingFactor_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.setScalingFactor", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_setState_Args{
+declare interface ak_soundengine_setState_Args{
 	/**
 	 * Either the ID (GUID), name, or Short ID of the State Group.
 	 */
@@ -417,11 +417,11 @@ export declare interface ak_soundengine_setState_Args{
 /**
  * Sets the State of a State Group. See AK::SoundEngine::SetState.
  */
-export function $ak_soundengine_setState(session:Session,args?:ak_soundengine_setState_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.setState", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_setState(session:Session,args?:ak_soundengine_setState_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.setState", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_setSwitch_Args{
+declare interface ak_soundengine_setSwitch_Args{
 	/**
 	 * Either the ID (GUID), name, or short ID of the Switch Group.
 	 */
@@ -441,11 +441,11 @@ export declare interface ak_soundengine_setSwitch_Args{
 /**
  * Sets the State of a Switch Group. See AK::SoundEngine::SetSwitch.
  */
-export function $ak_soundengine_setSwitch(session:Session,args?:ak_soundengine_setSwitch_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.setSwitch", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_setSwitch(session:Session,args?:ak_soundengine_setSwitch_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.setSwitch", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_stopAll_Args{
+declare interface ak_soundengine_stopAll_Args{
 	/**
 	 * Specify a game object to stop only playback associated to the provided game object ID.\n A game object ID, unsigned integer 64-bit.
 	 * Minimum: 0
@@ -457,11 +457,11 @@ export declare interface ak_soundengine_stopAll_Args{
 /**
  * Stop playing the current content associated to the specified game object ID. If no game object is specified, all sounds are stopped. See AK::SoundEngine::StopAll.
  */
-export function $ak_soundengine_stopAll(session:Session,args?:ak_soundengine_stopAll_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.stopAll", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_stopAll(session:Session,args?:ak_soundengine_stopAll_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.stopAll", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_stopPlayingID_Args{
+declare interface ak_soundengine_stopPlayingID_Args{
 	/**
 	 * Playing ID to be stopped.\n Unsigned Integer 32-bit.
 	 * Minimum: 0
@@ -485,11 +485,11 @@ export declare interface ak_soundengine_stopPlayingID_Args{
 /**
  * Stops the current content, associated to the specified playing ID, from playing. See AK::SoundEngine::StopPlayingID.
  */
-export function $ak_soundengine_stopPlayingID(session:Session,args?:ak_soundengine_stopPlayingID_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.stopPlayingID", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_stopPlayingID(session:Session,args?:ak_soundengine_stopPlayingID_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.stopPlayingID", args, options, onComplete)
 }
 
-export declare interface ak_soundengine_unregisterGameObj_Args{
+declare interface ak_soundengine_unregisterGameObj_Args{
 	/**
 	 * ID of the game object to be unregistered. Use \c AK_INVALID_GAME_OBJECT to unregister all game objects.\n A game object ID, unsigned integer 64-bit.
 	 * Minimum: 0
@@ -501,11 +501,11 @@ export declare interface ak_soundengine_unregisterGameObj_Args{
 /**
  * Unregisters a game object. Registering a game object twice does nothing. Unregistering it once unregisters it no matter how many times it has been registered. Unregistering a game object while it is in use is allowed, but the control over the parameters of this game object is lost. For example, say a sound associated with this game object is a 3D moving sound. It stops moving when the game object is unregistered, and there is no way to regain control over the game object. See AK::SoundEngine::UnregisterGameObj.
  */
-export function $ak_soundengine_unregisterGameObj(session:Session,args?:ak_soundengine_unregisterGameObj_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.soundengine.unregisterGameObj", args, options, onSuccess, onError, onComplete)
+function P_ak_soundengine_unregisterGameObj(session:Session,args?:ak_soundengine_unregisterGameObj_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.soundengine.unregisterGameObj", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_audio_import_Args{
+declare interface ak_wwise_core_audio_import_Args{
 	/**
 	 * Determines how import object creation is performed. For each object created:
 - createNew: creates a new object; the object is given the desired name if possible, otherwise a new unique name is used.
@@ -530,11 +530,11 @@ export declare interface ak_wwise_core_audio_import_Args{
 /**
  * Creates Wwise objects and imports audio files. This function uses the same importation processor available through the Tab Delimited import in the Audio File Importer. The function returns an array of all objects created, replaced or re-used. Use the options to specify how the objects are returned. For more information, refer to Importing Audio Files and Creating Structures.
  */
-export function $ak_wwise_core_audio_import(session:Session,args?:ak_wwise_core_audio_import_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.audio.import", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_audio_import(session:Session,args?:ak_wwise_core_audio_import_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.audio.import", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_audio_importTabDelimited_Args{
+declare interface ak_wwise_core_audio_importTabDelimited_Args{
 	/**
 	 * Object ID (GUID), name, or path used as root relative object paths.
 	 */
@@ -563,11 +563,11 @@ export declare interface ak_wwise_core_audio_importTabDelimited_Args{
 /**
  * Scripted object creation and audio file import from a tab-delimited file.
  */
-export function $ak_wwise_core_audio_importTabDelimited(session:Session,args?:ak_wwise_core_audio_importTabDelimited_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.audio.importTabDelimited", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_audio_importTabDelimited(session:Session,args?:ak_wwise_core_audio_importTabDelimited_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.audio.importTabDelimited", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInRegion_Args{
+declare interface ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInRegion_Args{
 	/**
 	 * The ID (GUID), name, or path of the audio source object.
 	 */
@@ -597,11 +597,11 @@ export declare interface ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInRegion_A
 /**
  * Gets the min/max peak pairs, in the given region of an audio source, as a collection of binary strings (one per channel). The strings are base-64 encoded, 16-bit signed int arrays, with min and max values being interleaved. If getCrossChannelPeaks is true, only one binary string represents the peaks across all channels globally.
  */
-export function $ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInRegion(session:Session,args?:ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInRegion_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.audioSourcePeaks.getMinMaxPeaksInRegion", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInRegion(session:Session,args?:ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInRegion_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.audioSourcePeaks.getMinMaxPeaksInRegion", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInTrimmedRegion_Args{
+declare interface ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInTrimmedRegion_Args{
 	/**
 	 * The ID (GUID), name, or path of the audio source.
 	 */
@@ -621,18 +621,18 @@ export declare interface ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInTrimmedR
 /**
  * Gets the min/max peak pairs in the entire trimmed region of an audio source, for each channel, as an array of binary strings (one per channel). The strings are base-64 encoded, 16-bit signed int arrays, with min and max values being interleaved. If getCrossChannelPeaks is true, there is only one binary string representing peaks across all channels globally.
  */
-export function $ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInTrimmedRegion(session:Session,args?:ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInTrimmedRegion_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.audioSourcePeaks.getMinMaxPeaksInTrimmedRegion", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInTrimmedRegion(session:Session,args?:ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInTrimmedRegion_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.audioSourcePeaks.getMinMaxPeaksInTrimmedRegion", args, options, onComplete)
 }
 
 /**
  * Retrieve global Wwise information.
  */
-export function $ak_wwise_core_getInfo(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.getInfo", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_core_getInfo(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.getInfo", null, null, onComplete)
 }
 
-export declare interface ak_wwise_core_log_get_Args{
+declare interface ak_wwise_core_log_get_Args{
 	/**
 	 * The log channel.\n The log channel.
 	 */
@@ -642,11 +642,11 @@ export declare interface ak_wwise_core_log_get_Args{
 /**
  * Retrieves the latest log for a specific channel. Refer to ak.wwise.core.log.itemAdded to be notified when a item is added to the log.
  */
-export function $ak_wwise_core_log_get(session:Session,args?:ak_wwise_core_log_get_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.log.get", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_log_get(session:Session,args?:ak_wwise_core_log_get_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.log.get", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_copy_Args{
+declare interface ak_wwise_core_object_copy_Args{
 	/**
 	 * The ID (GUID), name, or path of the object to be copied.
 	 */
@@ -664,11 +664,11 @@ export declare interface ak_wwise_core_object_copy_Args{
 /**
  * Copies an object to the given parent.
  */
-export function $ak_wwise_core_object_copy(session:Session,args?:ak_wwise_core_object_copy_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.object.copy", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_object_copy(session:Session,args?:ak_wwise_core_object_copy_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.object.copy", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_create_Args{
+declare interface ak_wwise_core_object_create_Args{
 	/**
 	 * The ID (GUID), name, or path of the parent of the new object.
 	 */
@@ -706,12 +706,12 @@ export declare interface ak_wwise_core_object_create_Args{
 /**
  * Creates an object of type 'type', as a child of 'parent'. Refer to Importing Audio Files and Creating Structures for more information about creating objects. Also refer to ak.wwise.core.audio.import to import audio files to Wwise.
  */
-export function $ak_wwise_core_object_create(session:Session,args?:ak_wwise_core_object_create_Args,exArgs?:any,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
+function P_ak_wwise_core_object_create(session:Session,args?:ak_wwise_core_object_create_Args,exArgs?:any,options?:SimpleSubOptions,onComplete?:()=>void){
 	args = JoinArgs(args,exArgs)
-	CallWaapi(session, "ak.wwise.core.object.create", args, options, onSuccess, onError, onComplete)
+	return CallWaapiPromise(session, "ak.wwise.core.object.create", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_delete_Args{
+declare interface ak_wwise_core_object_delete_Args{
 	/**
 	 * The ID (GUID), name, or path of the object to be deleted.
 	 */
@@ -721,11 +721,11 @@ export declare interface ak_wwise_core_object_delete_Args{
 /**
  * Deletes the specified object.
  */
-export function $ak_wwise_core_object_delete(session:Session,args?:ak_wwise_core_object_delete_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.object.delete", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_object_delete(session:Session,args?:ak_wwise_core_object_delete_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.object.delete", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_get_Args{
+declare interface ak_wwise_core_object_get_Args{
 	/**
 	 * The query starting point.
 	 */
@@ -739,11 +739,11 @@ export declare interface ak_wwise_core_object_get_Args{
 /**
  * Performs a query and returns specified data for each object in query result. Refer to Querying the Wwise Project for more information.
  */
-export function $ak_wwise_core_object_get(session:Session,args?:ak_wwise_core_object_get_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.object.get", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_object_get(session:Session,args?:ak_wwise_core_object_get_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.object.get", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_getAttenuationCurve_Args{
+declare interface ak_wwise_core_object_getAttenuationCurve_Args{
 	/**
 	 * The ID (GUID), name, or path of attenuation object.
 	 */
@@ -761,11 +761,11 @@ export declare interface ak_wwise_core_object_getAttenuationCurve_Args{
 /**
  * Gets the specified attenuation curve for a given attenuation object.
  */
-export function $ak_wwise_core_object_getAttenuationCurve(session:Session,args?:ak_wwise_core_object_getAttenuationCurve_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.object.getAttenuationCurve", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_object_getAttenuationCurve(session:Session,args?:ak_wwise_core_object_getAttenuationCurve_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.object.getAttenuationCurve", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_getPropertyAndReferenceNames_Args{
+declare interface ak_wwise_core_object_getPropertyAndReferenceNames_Args{
 	/**
 	 * The ID (GUID), name, or path of the object to watch.
 	 */
@@ -781,11 +781,11 @@ export declare interface ak_wwise_core_object_getPropertyAndReferenceNames_Args{
 /**
  * Retrieves the list of property and reference names for an object.
  */
-export function $ak_wwise_core_object_getPropertyAndReferenceNames(session:Session,args?:ak_wwise_core_object_getPropertyAndReferenceNames_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.object.getPropertyAndReferenceNames", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_object_getPropertyAndReferenceNames(session:Session,args?:ak_wwise_core_object_getPropertyAndReferenceNames_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.object.getPropertyAndReferenceNames", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_getPropertyInfo_Args{
+declare interface ak_wwise_core_object_getPropertyInfo_Args{
 	/**
 	 * The ID (GUID), name, or path of the object to watch.
 	 */
@@ -805,11 +805,11 @@ export declare interface ak_wwise_core_object_getPropertyInfo_Args{
 /**
  * Retrieves information about an object property.
  */
-export function $ak_wwise_core_object_getPropertyInfo(session:Session,args?:ak_wwise_core_object_getPropertyInfo_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.object.getPropertyInfo", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_object_getPropertyInfo(session:Session,args?:ak_wwise_core_object_getPropertyInfo_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.object.getPropertyInfo", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_isPropertyEnabled_Args{
+declare interface ak_wwise_core_object_isPropertyEnabled_Args{
 	/**
 	 * The ID (GUID), name, or path of the object to check.
 	 */
@@ -827,11 +827,11 @@ export declare interface ak_wwise_core_object_isPropertyEnabled_Args{
 /**
  * Returns true if a property is enabled based on the values of the properties it depends on.
  */
-export function $ak_wwise_core_object_isPropertyEnabled(session:Session,args?:ak_wwise_core_object_isPropertyEnabled_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.object.isPropertyEnabled", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_object_isPropertyEnabled(session:Session,args?:ak_wwise_core_object_isPropertyEnabled_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.object.isPropertyEnabled", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_move_Args{
+declare interface ak_wwise_core_object_move_Args{
 	/**
 	 * The ID (GUID), name, or path of the object to be moved.
 	 */
@@ -849,11 +849,11 @@ export declare interface ak_wwise_core_object_move_Args{
 /**
  * Moves an object to the given parent. Returns the moved object.
  */
-export function $ak_wwise_core_object_move(session:Session,args?:ak_wwise_core_object_move_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.object.move", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_object_move(session:Session,args?:ak_wwise_core_object_move_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.object.move", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_setAttenuationCurve_Args{
+declare interface ak_wwise_core_object_setAttenuationCurve_Args{
 	/**
 	 * The ID (GUID), name, or path of attenuation object.
 	 */
@@ -879,11 +879,11 @@ export declare interface ak_wwise_core_object_setAttenuationCurve_Args{
 /**
  * Sets the specified attenuation curve for a given attenuation object.
  */
-export function $ak_wwise_core_object_setAttenuationCurve(session:Session,args?:ak_wwise_core_object_setAttenuationCurve_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.object.setAttenuationCurve", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_object_setAttenuationCurve(session:Session,args?:ak_wwise_core_object_setAttenuationCurve_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.object.setAttenuationCurve", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_setName_Args{
+declare interface ak_wwise_core_object_setName_Args{
 	/**
 	 * The ID (GUID), name, or path of the object to rename.
 	 */
@@ -897,11 +897,11 @@ export declare interface ak_wwise_core_object_setName_Args{
 /**
  * Renames an object.
  */
-export function $ak_wwise_core_object_setName(session:Session,args?:ak_wwise_core_object_setName_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.object.setName", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_object_setName(session:Session,args?:ak_wwise_core_object_setName_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.object.setName", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_setNotes_Args{
+declare interface ak_wwise_core_object_setNotes_Args{
 	/**
 	 * The ID (GUID), name, or path of the object to set value.
 	 */
@@ -915,11 +915,11 @@ export declare interface ak_wwise_core_object_setNotes_Args{
 /**
  * Sets the object's notes.
  */
-export function $ak_wwise_core_object_setNotes(session:Session,args?:ak_wwise_core_object_setNotes_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.object.setNotes", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_object_setNotes(session:Session,args?:ak_wwise_core_object_setNotes_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.object.setNotes", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_setProperty_Args{
+declare interface ak_wwise_core_object_setProperty_Args{
 	/**
 	 * The ID (GUID), name, or path of the object to set value.
 	 */
@@ -941,11 +941,11 @@ export declare interface ak_wwise_core_object_setProperty_Args{
 /**
  * Sets a property value of an object for a specific platform. Refer to Wwise Objects Reference for more information on the properties available on each object type. Refer to ak.wwise.core.object.setReference to set a reference to an object.
  */
-export function $ak_wwise_core_object_setProperty(session:Session,args?:ak_wwise_core_object_setProperty_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.object.setProperty", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_object_setProperty(session:Session,args?:ak_wwise_core_object_setProperty_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.object.setProperty", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_setRandomizer_Args{
+declare interface ak_wwise_core_object_setRandomizer_Args{
 	/**
 	 * The ID (GUID), name, or path of the object owning the property.
 	 */
@@ -977,11 +977,11 @@ export declare interface ak_wwise_core_object_setRandomizer_Args{
 /**
  * Sets the randomizer values of a property of an object for a specific platform. Refer to Wwise Objects Reference for more information on the properties available on each object type.
  */
-export function $ak_wwise_core_object_setRandomizer(session:Session,args?:ak_wwise_core_object_setRandomizer_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.object.setRandomizer", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_object_setRandomizer(session:Session,args?:ak_wwise_core_object_setRandomizer_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.object.setRandomizer", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_object_setReference_Args{
+declare interface ak_wwise_core_object_setReference_Args{
 	/**
 	 * The ID (GUID), name, or path of the object which has the reference.
 	 */
@@ -1003,11 +1003,11 @@ export declare interface ak_wwise_core_object_setReference_Args{
 /**
  * Sets an object's reference value. Refer to Wwise Objects Reference for more information on the references available on each object type.
  */
-export function $ak_wwise_core_object_setReference(session:Session,args?:ak_wwise_core_object_setReference_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.object.setReference", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_object_setReference(session:Session,args?:ak_wwise_core_object_setReference_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.object.setReference", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_profiler_getCursorTime_Args{
+declare interface ak_wwise_core_profiler_getCursorTime_Args{
 	/**
 	 * Time Cursor to acquire the time from. The User Time Cursor is the one that can be manipulated by the user, while the Capture Time Cursor follows represents the latest time of the current capture.\n Identify one of the global profiler cursors.
 	 */
@@ -1017,11 +1017,11 @@ export declare interface ak_wwise_core_profiler_getCursorTime_Args{
 /**
  * Returns the current time of the specified profiler cursor, in milliseconds.
  */
-export function $ak_wwise_core_profiler_getCursorTime(session:Session,args?:ak_wwise_core_profiler_getCursorTime_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.profiler.getCursorTime", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_profiler_getCursorTime(session:Session,args?:ak_wwise_core_profiler_getCursorTime_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.profiler.getCursorTime", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_profiler_getRTPCs_Args{
+declare interface ak_wwise_core_profiler_getRTPCs_Args{
 	/**
 	 * Time in milliseconds to query for RTPCs, or a Time Cursor to acquire the time from. The User Time Cursor is the one that can be manipulated by the user, while the Capture Time Cursor follows represents the latest time of the current capture.
 	 */
@@ -1031,11 +1031,11 @@ export declare interface ak_wwise_core_profiler_getRTPCs_Args{
 /**
  * Retrieves active RTPCs at a specific profiler capture time.
  */
-export function $ak_wwise_core_profiler_getRTPCs(session:Session,args?:ak_wwise_core_profiler_getRTPCs_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.profiler.getRTPCs", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_profiler_getRTPCs(session:Session,args?:ak_wwise_core_profiler_getRTPCs_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.profiler.getRTPCs", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_profiler_getVoiceContributions_Args{
+declare interface ak_wwise_core_profiler_getVoiceContributions_Args{
 	/**
 	 * The pipeline ID of the voice to get contributions from.\n Identifies a playing voice instance ID.
 	 * Minimum: 0
@@ -1054,11 +1054,11 @@ export declare interface ak_wwise_core_profiler_getVoiceContributions_Args{
 /**
  * Retrieves all parameters affecting voice volume, highpass and lowpass for a voice path, resolved from pipeline IDs.
  */
-export function $ak_wwise_core_profiler_getVoiceContributions(session:Session,args?:ak_wwise_core_profiler_getVoiceContributions_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.profiler.getVoiceContributions", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_profiler_getVoiceContributions(session:Session,args?:ak_wwise_core_profiler_getVoiceContributions_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.profiler.getVoiceContributions", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_profiler_getVoices_Args{
+declare interface ak_wwise_core_profiler_getVoices_Args{
 	/**
 	 * Time in milliseconds to query for voices, or a Time Cursor to acquire the time from. The User Time Cursor is the one that can be manipulated by the user, while the Capture Time Cursor follows represents the latest time of the current capture.
 	 */
@@ -1068,32 +1068,32 @@ export declare interface ak_wwise_core_profiler_getVoices_Args{
 /**
  * Retrieves the voices at a specific profiler capture time.
  */
-export function $ak_wwise_core_profiler_getVoices(session:Session,args?:ak_wwise_core_profiler_getVoices_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.profiler.getVoices", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_profiler_getVoices(session:Session,args?:ak_wwise_core_profiler_getVoices_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.profiler.getVoices", args, options, onComplete)
 }
 
 /**
  * Starts the profiler capture and returns the time at the beginning of the capture, in milliseconds.
  */
-export function $ak_wwise_core_profiler_startCapture(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.profiler.startCapture", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_core_profiler_startCapture(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.profiler.startCapture", null, null, onComplete)
 }
 
 /**
  * Stops the profiler capture and returns the time at the end of the capture, in milliseconds.
  */
-export function $ak_wwise_core_profiler_stopCapture(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.profiler.stopCapture", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_core_profiler_stopCapture(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.profiler.stopCapture", null, null, onComplete)
 }
 
 /**
  * Saves the current project.
  */
-export function $ak_wwise_core_project_save(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void){
-	CallWaapi(session, "ak.wwise.core.project.save", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_core_project_save(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.project.save", null, null, onComplete)
 }
 
-export declare interface ak_wwise_core_remote_connect_Args{
+declare interface ak_wwise_core_remote_connect_Args{
 	/**
 	 * The host to connect to. The host can be an IPv4 address or a computer name. Use 127.0.0.1 to connect to localhost.
 	 */
@@ -1119,32 +1119,32 @@ export declare interface ak_wwise_core_remote_connect_Args{
 /**
  * Connects the Wwise Authoring application to a Wwise Sound Engine running executable. The host must be running code with communication enabled. If only "host" is provided, Wwise connects to the first Sound Engine instance found. To distinguish between different instances, you can also provide the name of the application to connect to.
  */
-export function $ak_wwise_core_remote_connect(session:Session,args?:ak_wwise_core_remote_connect_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.remote.connect", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_remote_connect(session:Session,args?:ak_wwise_core_remote_connect_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.remote.connect", args, options, onComplete)
 }
 
 /**
  * Disconnects the Wwise Authoring application from a connected Wwise Sound Engine running executable.
  */
-export function $ak_wwise_core_remote_disconnect(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void){
-	CallWaapi(session, "ak.wwise.core.remote.disconnect", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_core_remote_disconnect(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.remote.disconnect", null, null, onComplete)
 }
 
 /**
  * Retrieves all consoles available for connecting Wwise Authoring to a Sound Engine instance.
  */
-export function $ak_wwise_core_remote_getAvailableConsoles(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.remote.getAvailableConsoles", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_core_remote_getAvailableConsoles(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.remote.getAvailableConsoles", null, null, onComplete)
 }
 
 /**
  * Retrieves the connection status.
  */
-export function $ak_wwise_core_remote_getConnectionStatus(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.remote.getConnectionStatus", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_core_remote_getConnectionStatus(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.remote.getConnectionStatus", null, null, onComplete)
 }
 
-export declare interface ak_wwise_core_soundbank_generate_Args{
+declare interface ak_wwise_core_soundbank_generate_Args{
 	/**
 	 * List of SoundBank to generate.
 	 */
@@ -1182,11 +1182,11 @@ export declare interface ak_wwise_core_soundbank_generate_Args{
 /**
  * Generate a list of SoundBank with import definition defined in the WAAPI request. If you choose to not write the soundbanks to disk, subscribe to ak.wwise.core.soundbank.generated to get SoundBank structure info and the bank data as base64.
  */
-export function $ak_wwise_core_soundbank_generate(session:Session,args?:ak_wwise_core_soundbank_generate_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.soundbank.generate", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_soundbank_generate(session:Session,args?:ak_wwise_core_soundbank_generate_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.soundbank.generate", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_soundbank_getInclusions_Args{
+declare interface ak_wwise_core_soundbank_getInclusions_Args{
 	/**
 	 * The ID (GUID), name, or path of the SoundBank to add an inclusion to.
 	 */
@@ -1196,11 +1196,11 @@ export declare interface ak_wwise_core_soundbank_getInclusions_Args{
 /**
  * Retrieves a SoundBank's inclusion list.
  */
-export function $ak_wwise_core_soundbank_getInclusions(session:Session,args?:ak_wwise_core_soundbank_getInclusions_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.soundbank.getInclusions", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_soundbank_getInclusions(session:Session,args?:ak_wwise_core_soundbank_getInclusions_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.soundbank.getInclusions", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_soundbank_setInclusions_Args{
+declare interface ak_wwise_core_soundbank_setInclusions_Args{
 	/**
 	 * The ID (GUID), name, or path of the SoundBank to add an inclusion to.
 	 */
@@ -1218,11 +1218,11 @@ export declare interface ak_wwise_core_soundbank_setInclusions_Args{
 /**
  * Modifies a SoundBank's inclusion list. The 'operation' argument determines how the 'inclusions' argument modifies the SoundBank's inclusion list; 'inclusions' may be added to / removed from / replace the SoundBank's inclusion list.
  */
-export function $ak_wwise_core_soundbank_setInclusions(session:Session,args?:ak_wwise_core_soundbank_setInclusions_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.soundbank.setInclusions", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_soundbank_setInclusions(session:Session,args?:ak_wwise_core_soundbank_setInclusions_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.soundbank.setInclusions", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_switchContainer_addAssignment_Args{
+declare interface ak_wwise_core_switchContainer_addAssignment_Args{
 	/**
 	 * The ID (GUID), name, or path of the object to assign to a State. This object must be the child of a Switch Container.
 	 */
@@ -1236,11 +1236,11 @@ export declare interface ak_wwise_core_switchContainer_addAssignment_Args{
 /**
  * Assigns a Switch Container's child to a Switch. This is the equivalent of doing a drag&drop of the child to a state in the Assigned Objects view. The child is always added at the end for each state.
  */
-export function $ak_wwise_core_switchContainer_addAssignment(session:Session,args?:ak_wwise_core_switchContainer_addAssignment_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.switchContainer.addAssignment", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_switchContainer_addAssignment(session:Session,args?:ak_wwise_core_switchContainer_addAssignment_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.switchContainer.addAssignment", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_switchContainer_getAssignments_Args{
+declare interface ak_wwise_core_switchContainer_getAssignments_Args{
 	/**
 	 * The ID (GUID), name, or path of the Switch Container.
 	 */
@@ -1250,11 +1250,11 @@ export declare interface ak_wwise_core_switchContainer_getAssignments_Args{
 /**
  * Returns the list of assignments between a Switch Container's children and states.
  */
-export function $ak_wwise_core_switchContainer_getAssignments(session:Session,args?:ak_wwise_core_switchContainer_getAssignments_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.switchContainer.getAssignments", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_switchContainer_getAssignments(session:Session,args?:ak_wwise_core_switchContainer_getAssignments_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.switchContainer.getAssignments", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_switchContainer_removeAssignment_Args{
+declare interface ak_wwise_core_switchContainer_removeAssignment_Args{
 	/**
 	 * The ID (GUID), name, or path of the object assigned to a State. This object must be the child of a Switch Container and must be currently assigned to a State.
 	 */
@@ -1268,11 +1268,11 @@ export declare interface ak_wwise_core_switchContainer_removeAssignment_Args{
 /**
  * Removes an assignment between a Switch Container's child and a State.
  */
-export function $ak_wwise_core_switchContainer_removeAssignment(session:Session,args?:ak_wwise_core_switchContainer_removeAssignment_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.switchContainer.removeAssignment", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_switchContainer_removeAssignment(session:Session,args?:ak_wwise_core_switchContainer_removeAssignment_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.switchContainer.removeAssignment", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_transport_create_Args{
+declare interface ak_wwise_core_transport_create_Args{
 	/**
 	 * The ID (GUID), name, or path of the object to control via the transport object.
 	 */
@@ -1288,11 +1288,11 @@ export declare interface ak_wwise_core_transport_create_Args{
 /**
  * Creates a transport object for the given Wwise object. The return transport object can be used to play, stop, pause and resume the Wwise object via the other transport functions.
  */
-export function $ak_wwise_core_transport_create(session:Session,args?:ak_wwise_core_transport_create_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.transport.create", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_transport_create(session:Session,args?:ak_wwise_core_transport_create_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.transport.create", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_transport_destroy_Args{
+declare interface ak_wwise_core_transport_destroy_Args{
 	/**
 	 * The transport object ID to be used with all other ak.wwise.core.transport functions.\n Unsigned Integer 32-bit.
 	 * Minimum: 0
@@ -1304,11 +1304,11 @@ export declare interface ak_wwise_core_transport_destroy_Args{
 /**
  * Destroys the given transport object.
  */
-export function $ak_wwise_core_transport_destroy(session:Session,args?:ak_wwise_core_transport_destroy_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.transport.destroy", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_transport_destroy(session:Session,args?:ak_wwise_core_transport_destroy_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.transport.destroy", args, options, onComplete)
 }
 
-export declare interface ak_wwise_core_transport_executeAction_Args{
+declare interface ak_wwise_core_transport_executeAction_Args{
 	/**
 	 * The transport object ID to be used with all other ak.wwise.core.transport functions.\n Unsigned Integer 32-bit.
 	 * Minimum: 0
@@ -1324,18 +1324,18 @@ export declare interface ak_wwise_core_transport_executeAction_Args{
 /**
  * Executes an action on the given transport object, or all transport objects if none is specified.
  */
-export function $ak_wwise_core_transport_executeAction(session:Session,args?:ak_wwise_core_transport_executeAction_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.transport.executeAction", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_transport_executeAction(session:Session,args?:ak_wwise_core_transport_executeAction_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.transport.executeAction", args, options, onComplete)
 }
 
 /**
  * Returns the list of transport objects.
  */
-export function $ak_wwise_core_transport_getList(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.transport.getList", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_core_transport_getList(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.transport.getList", null, null, onComplete)
 }
 
-export declare interface ak_wwise_core_transport_getState_Args{
+declare interface ak_wwise_core_transport_getState_Args{
 	/**
 	 * The transport object ID to be used with all other ak.wwise.core.transport functions.\n Unsigned Integer 32-bit.
 	 * Minimum: 0
@@ -1347,25 +1347,25 @@ export declare interface ak_wwise_core_transport_getState_Args{
 /**
  * Gets the state of the given transport object.
  */
-export function $ak_wwise_core_transport_getState(session:Session,args?:ak_wwise_core_transport_getState_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.transport.getState", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_transport_getState(session:Session,args?:ak_wwise_core_transport_getState_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.transport.getState", args, options, onComplete)
 }
 
 /**
  * Begins an undo group. Make sure to call ak.wwise.core.undo.endGroup exactly once for every ak.wwise.core.beginUndoGroup call you make. Calls to ak.wwise.core.undo.beginGroup can be nested.
  */
-export function $ak_wwise_core_undo_beginGroup(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void){
-	CallWaapi(session, "ak.wwise.core.undo.beginGroup", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_core_undo_beginGroup(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.undo.beginGroup", null, null, onComplete)
 }
 
 /**
  * Cancels the last undo group. Please note that this does not revert the operations made since the last ak.wwise.core.undo.beginGroup call.
  */
-export function $ak_wwise_core_undo_cancelGroup(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void){
-	CallWaapi(session, "ak.wwise.core.undo.cancelGroup", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_core_undo_cancelGroup(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.undo.cancelGroup", null, null, onComplete)
 }
 
-export declare interface ak_wwise_core_undo_endGroup_Args{
+declare interface ak_wwise_core_undo_endGroup_Args{
 	/**
 	 * The name that is displayed in the history for this undo group.
 	 */
@@ -1375,11 +1375,11 @@ export declare interface ak_wwise_core_undo_endGroup_Args{
 /**
  * Ends the last undo group.
  */
-export function $ak_wwise_core_undo_endGroup(session:Session,args?:ak_wwise_core_undo_endGroup_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.core.undo.endGroup", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_core_undo_endGroup(session:Session,args?:ak_wwise_core_undo_endGroup_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.core.undo.endGroup", args, options, onComplete)
 }
 
-export declare interface ak_wwise_debug_enableAsserts_Args{
+declare interface ak_wwise_debug_enableAsserts_Args{
 	/**
 	 * Indicates whether assertions should be enabled or disabled.
 	 */
@@ -1389,11 +1389,11 @@ export declare interface ak_wwise_debug_enableAsserts_Args{
 /**
  * Enables debug assertions. Every call to enableAsserts with 'false' increments the ref count. Calling with true decrements the ref count. This is only available with Debug builds.
  */
-export function $ak_wwise_debug_enableAsserts(session:Session,args?:ak_wwise_debug_enableAsserts_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.debug.enableAsserts", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_debug_enableAsserts(session:Session,args?:ak_wwise_debug_enableAsserts_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.debug.enableAsserts", args, options, onComplete)
 }
 
-export declare interface ak_wwise_debug_enableAutomationMode_Args{
+declare interface ak_wwise_debug_enableAutomationMode_Args{
 	/**
 	 * When set to true, the automation mode reduces the blocking of dialogs and popups. When set to false, it reverts to the normal mode.
 	 */
@@ -1403,32 +1403,32 @@ export declare interface ak_wwise_debug_enableAutomationMode_Args{
 /**
  * Enables or disables the automation mode for Wwise. This reduces the potential interruptions caused by message boxes and dialogs. For instance, enabling the automation mode silently accepts: project migration, project load log, EULA acceptance, project licence display and generic message boxes.
  */
-export function $ak_wwise_debug_enableAutomationMode(session:Session,args?:ak_wwise_debug_enableAutomationMode_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.debug.enableAutomationMode", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_debug_enableAutomationMode(session:Session,args?:ak_wwise_debug_enableAutomationMode_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.debug.enableAutomationMode", args, options, onComplete)
 }
 
 /**
  * Private use only.
  */
-export function $ak_wwise_debug_testAssert(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void){
-	CallWaapi(session, "ak.wwise.debug.testAssert", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_debug_testAssert(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.debug.testAssert", null, null, onComplete)
 }
 
 /**
  * Private use only.
  */
-export function $ak_wwise_debug_testCrash(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void){
-	CallWaapi(session, "ak.wwise.debug.testCrash", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_debug_testCrash(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.debug.testCrash", null, null, onComplete)
 }
 
 /**
  * Bring Wwise main window to foreground. Refer to SetForegroundWindow and AllowSetForegroundWindow on MSDN for more information on the restrictions. Refer to ak.wwise.core.getInfo to obtain the Wwise process ID for AllowSetForegroundWindow.
  */
-export function $ak_wwise_ui_bringToForeground(session:Session,onComplete?:()=>void,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void){
-	CallWaapi(session, "ak.wwise.ui.bringToForeground", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_ui_bringToForeground(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.ui.bringToForeground", null, null, onComplete)
 }
 
-export declare interface ak_wwise_ui_captureScreen_Args{
+declare interface ak_wwise_ui_captureScreen_Args{
 	/**
 	 * The name of the view as displayed in Wwise UI. By default, the whole UI is captured.
 	 */
@@ -1446,11 +1446,11 @@ export declare interface ak_wwise_ui_captureScreen_Args{
 /**
  * Captures a part of the Wwise UI relative to a view.
  */
-export function $ak_wwise_ui_captureScreen(session:Session,args?:ak_wwise_ui_captureScreen_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.ui.captureScreen", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_ui_captureScreen(session:Session,args?:ak_wwise_ui_captureScreen_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.ui.captureScreen", args, options, onComplete)
 }
 
-export declare interface ak_wwise_ui_commands_execute_Args{
+declare interface ak_wwise_ui_commands_execute_Args{
 	/**
 	 * The ID of the command to execute. Refer to \ref globalcommandsids for the lists of commands.
 	 */
@@ -1468,18 +1468,18 @@ export declare interface ak_wwise_ui_commands_execute_Args{
 /**
  * Executes a command. Some commands can take a list of objects as parameters. Refer to Wwise Authoring Command Identifiers for the available commands.
  */
-export function $ak_wwise_ui_commands_execute(session:Session,args?:ak_wwise_ui_commands_execute_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.ui.commands.execute", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_ui_commands_execute(session:Session,args?:ak_wwise_ui_commands_execute_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.ui.commands.execute", args, options, onComplete)
 }
 
 /**
  * Gets the list of commands.
  */
-export function $ak_wwise_ui_commands_getCommands(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.ui.commands.getCommands", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_ui_commands_getCommands(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.ui.commands.getCommands", null, null, onComplete)
 }
 
-export declare interface ak_wwise_ui_commands_register_Args{
+declare interface ak_wwise_ui_commands_register_Args{
 	/**
 	 * Data for the commands to be registered.\n An array of command add-ons.
 	 */
@@ -1489,11 +1489,11 @@ export declare interface ak_wwise_ui_commands_register_Args{
 /**
  * Registers an array of add-on commands. Registered commands remain until the Wwise process is terminated. Refer to Defining Command Add-ons for more information about registering commands. Also refer to ak.wwise.ui.commands.executed.
  */
-export function $ak_wwise_ui_commands_register(session:Session,args?:ak_wwise_ui_commands_register_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.ui.commands.register", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_ui_commands_register(session:Session,args?:ak_wwise_ui_commands_register_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.ui.commands.register", args, options, onComplete)
 }
 
-export declare interface ak_wwise_ui_commands_unregister_Args{
+declare interface ak_wwise_ui_commands_unregister_Args{
 	/**
 	 * An array of commands to unregister.
 	 */
@@ -1503,18 +1503,18 @@ export declare interface ak_wwise_ui_commands_unregister_Args{
 /**
  * Unregisters an array of add-on UI commands.
  */
-export function $ak_wwise_ui_commands_unregister(session:Session,args?:ak_wwise_ui_commands_unregister_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.ui.commands.unregister", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_ui_commands_unregister(session:Session,args?:ak_wwise_ui_commands_unregister_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.ui.commands.unregister", args, options, onComplete)
 }
 
 /**
  * Retrieves the list of objects currently selected by the user in the active view.
  */
-export function $ak_wwise_ui_getSelectedObjects(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.ui.getSelectedObjects", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_ui_getSelectedObjects(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.ui.getSelectedObjects", null, null, onComplete)
 }
 
-export declare interface ak_wwise_ui_project_close_Args{
+declare interface ak_wwise_ui_project_close_Args{
 	/**
 	 * Indicates if the user should not be prompted to save the current project.
 	 */
@@ -1524,11 +1524,11 @@ export declare interface ak_wwise_ui_project_close_Args{
 /**
  * Closes the current project.
  */
-export function $ak_wwise_ui_project_close(session:Session,args?:ak_wwise_ui_project_close_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.ui.project.close", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_ui_project_close(session:Session,args?:ak_wwise_ui_project_close_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.ui.project.close", args, options, onComplete)
 }
 
-export declare interface ak_wwise_ui_project_open_Args{
+declare interface ak_wwise_ui_project_open_Args{
 	/**
 	 * The path to the project file. For using WAAPI on Mac, please refer to \ref waapi_path_on_mac .
 	 */
@@ -1546,18 +1546,18 @@ export declare interface ak_wwise_ui_project_open_Args{
 /**
  * Opens a project, specified by path. Please refer to ak.wwise.core.project.loaded for further explanations on how to be notified when the operation has completed.
  */
-export function $ak_wwise_ui_project_open(session:Session,args?:ak_wwise_ui_project_open_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.ui.project.open", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_ui_project_open(session:Session,args?:ak_wwise_ui_project_open_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.ui.project.open", args, options, onComplete)
 }
 
 /**
  * Retrieves the list of functions.
  */
-export function $ak_wwise_waapi_getFunctions(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.waapi.getFunctions", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_waapi_getFunctions(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.waapi.getFunctions", null, null, onComplete)
 }
 
-export declare interface ak_wwise_waapi_getSchema_Args{
+declare interface ak_wwise_waapi_getSchema_Args{
 	/**
 	 * Waapi URI (see ak.wwise.waapi.getTopics, ak.wwise.waapi.getFunctions).
 	 */
@@ -1567,233 +1567,233 @@ export declare interface ak_wwise_waapi_getSchema_Args{
 /**
  * Retrieves the JSON schema of a Waapi URI.
  */
-export function $ak_wwise_waapi_getSchema(session:Session,args?:ak_wwise_waapi_getSchema_Args,options?:SimpleSubOptions,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.waapi.getSchema", args, options, onSuccess, onError, onComplete)
+function P_ak_wwise_waapi_getSchema(session:Session,args?:ak_wwise_waapi_getSchema_Args,options?:SimpleSubOptions,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.waapi.getSchema", args, options, onComplete)
 }
 
 /**
  * Retrieves the list of topics to which a client can subscribe.
  */
-export function $ak_wwise_waapi_getTopics(session:Session,onSuccess?:(res:Result)=>void,onError?:(error:Error)=>void,onComplete?:()=>void){
-	CallWaapi(session, "ak.wwise.waapi.getTopics", null, null, onSuccess, onError, onComplete)
+function P_ak_wwise_waapi_getTopics(session:Session,onComplete?:()=>void){
+	return CallWaapiPromise(session, "ak.wwise.waapi.getTopics", null, null, onComplete)
 }
 
 
 
-const APIs = { 
+const APIs_Async = { 
     ak: {
         soundengine: {
             /** Executes an action on all nodes that are referenced in the specified event in a Play action. See AK::SoundEngine::ExecuteActionOnEvent.*/
-            executeActionOnEvent: $ak_soundengine_executeActionOnEvent,
+            executeActionOnEvent: P_ak_soundengine_executeActionOnEvent,
             /** Asynchronously post an Event to the sound engine (by event ID). See AK::SoundEngine::PostEvent.*/
-            postEvent: $ak_soundengine_postEvent,
+            postEvent: P_ak_soundengine_postEvent,
             /** Display a message in the Profiler's Capture Log view.*/
-            postMsgMonitor: $ak_soundengine_postMsgMonitor,
+            postMsgMonitor: P_ak_soundengine_postMsgMonitor,
             /** Posts the specified Trigger. See AK::SoundEngine::PostTrigger.*/
-            postTrigger: $ak_soundengine_postTrigger,
+            postTrigger: P_ak_soundengine_postTrigger,
             /** Register a game object. Registering a game object twice does nothing. Unregistering it once unregisters it no matter how many times it has been registered. See AK::SoundEngine::RegisterGameObj.*/
-            registerGameObj: $ak_soundengine_registerGameObj,
+            registerGameObj: P_ak_soundengine_registerGameObj,
             /** Resets the value of a real-time parameter control to its default value, as specified in the Wwise project. See AK::SoundEngine::ResetRTPCValue.*/
-            resetRTPCValue: $ak_soundengine_resetRTPCValue,
+            resetRTPCValue: P_ak_soundengine_resetRTPCValue,
             /** Seeks inside all playing objects that are referenced in Play Actions of the specified Event. See AK::SoundEngine::SeekOnEvent.*/
-            seekOnEvent: $ak_soundengine_seekOnEvent,
+            seekOnEvent: P_ak_soundengine_seekOnEvent,
             /** Sets the default active listeners for all subsequent game objects that are registered. See AK::SoundEngine::SetDefaultListeners.*/
-            setDefaultListeners: $ak_soundengine_setDefaultListeners,
+            setDefaultListeners: P_ak_soundengine_setDefaultListeners,
             /** Sets the Auxiliary Busses to route the specified game object. See AK::SoundEngine::SetGameObjectAuxSendValues.*/
-            setGameObjectAuxSendValues: $ak_soundengine_setGameObjectAuxSendValues,
+            setGameObjectAuxSendValues: P_ak_soundengine_setGameObjectAuxSendValues,
             /** Set the output bus volume (direct) to be used for the specified game object. See AK::SoundEngine::SetGameObjectOutputBusVolume.*/
-            setGameObjectOutputBusVolume: $ak_soundengine_setGameObjectOutputBusVolume,
+            setGameObjectOutputBusVolume: P_ak_soundengine_setGameObjectOutputBusVolume,
             /** Sets a single game object's active listeners. By default, all new game objects have no listeners active, but this behavior can be overridden with SetDefaultListeners(). Inactive listeners are not computed. See AK::SoundEngine::SetListeners.*/
-            setListeners: $ak_soundengine_setListeners,
+            setListeners: P_ak_soundengine_setListeners,
             /** Sets a listener's spatialization parameters. This lets you define listener-specific volume offsets for each audio channel. See AK::SoundEngine::SetListenerSpatialization.*/
-            setListenerSpatialization: $ak_soundengine_setListenerSpatialization,
+            setListenerSpatialization: P_ak_soundengine_setListenerSpatialization,
             /** Sets multiple positions for a single game object. Setting multiple positions for a single game object is a way to simulate multiple emission sources while using the resources of only one voice. This can be used to simulate wall openings, area sounds, or multiple objects emitting the same sound in the same area. See AK::SoundEngine::SetMultiplePositions.*/
-            setMultiplePositions: $ak_soundengine_setMultiplePositions,
+            setMultiplePositions: P_ak_soundengine_setMultiplePositions,
             /** Set a game object's obstruction and occlusion levels. This function is used to affect how an object should be heard by a specific listener. See AK::SoundEngine::SetObjectObstructionAndOcclusion.*/
-            setObjectObstructionAndOcclusion: $ak_soundengine_setObjectObstructionAndOcclusion,
+            setObjectObstructionAndOcclusion: P_ak_soundengine_setObjectObstructionAndOcclusion,
             /** Sets the position of a game object. See AK::SoundEngine::SetPosition.*/
-            setPosition: $ak_soundengine_setPosition,
+            setPosition: P_ak_soundengine_setPosition,
             /** Sets the value of a real-time parameter control. See AK::SoundEngine::SetRTPCValue.*/
-            setRTPCValue: $ak_soundengine_setRTPCValue,
+            setRTPCValue: P_ak_soundengine_setRTPCValue,
             /** Sets the scaling factor of a game object. You can modify the attenuation computations on this game object to simulate sounds with a larger or smaller affected areas. See AK::SoundEngine::SetScalingFactor.*/
-            setScalingFactor: $ak_soundengine_setScalingFactor,
+            setScalingFactor: P_ak_soundengine_setScalingFactor,
             /** Sets the State of a State Group. See AK::SoundEngine::SetState.*/
-            setState: $ak_soundengine_setState,
+            setState: P_ak_soundengine_setState,
             /** Sets the State of a Switch Group. See AK::SoundEngine::SetSwitch.*/
-            setSwitch: $ak_soundengine_setSwitch,
+            setSwitch: P_ak_soundengine_setSwitch,
             /** Stop playing the current content associated to the specified game object ID. If no game object is specified, all sounds are stopped. See AK::SoundEngine::StopAll.*/
-            stopAll: $ak_soundengine_stopAll,
+            stopAll: P_ak_soundengine_stopAll,
             /** Stops the current content, associated to the specified playing ID, from playing. See AK::SoundEngine::StopPlayingID.*/
-            stopPlayingID: $ak_soundengine_stopPlayingID,
+            stopPlayingID: P_ak_soundengine_stopPlayingID,
             /** Unregisters a game object. Registering a game object twice does nothing. Unregistering it once unregisters it no matter how many times it has been registered. Unregistering a game object while it is in use is allowed, but the control over the parameters of this game object is lost. For example, say a sound associated with this game object is a 3D moving sound. It stops moving when the game object is unregistered, and there is no way to regain control over the game object. See AK::SoundEngine::UnregisterGameObj.*/
-            unregisterGameObj: $ak_soundengine_unregisterGameObj,
+            unregisterGameObj: P_ak_soundengine_unregisterGameObj,
         },
         wwise: {
             core: {
                 audio: {
                     /** Creates Wwise objects and imports audio files. This function uses the same importation processor available through the Tab Delimited import in the Audio File Importer. The function returns an array of all objects created, replaced or re-used. Use the options to specify how the objects are returned. For more information, refer to Importing Audio Files and Creating Structures.*/
-                    import: $ak_wwise_core_audio_import,
+                    import: P_ak_wwise_core_audio_import,
                     /** Scripted object creation and audio file import from a tab-delimited file.*/
-                    importTabDelimited: $ak_wwise_core_audio_importTabDelimited,
+                    importTabDelimited: P_ak_wwise_core_audio_importTabDelimited,
                 },
                 audioSourcePeaks: {
                     /** Gets the min/max peak pairs, in the given region of an audio source, as a collection of binary strings (one per channel). The strings are base-64 encoded, 16-bit signed int arrays, with min and max values being interleaved. If getCrossChannelPeaks is true, only one binary string represents the peaks across all channels globally.*/
-                    getMinMaxPeaksInRegion: $ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInRegion,
+                    getMinMaxPeaksInRegion: P_ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInRegion,
                     /** Gets the min/max peak pairs in the entire trimmed region of an audio source, for each channel, as an array of binary strings (one per channel). The strings are base-64 encoded, 16-bit signed int arrays, with min and max values being interleaved. If getCrossChannelPeaks is true, there is only one binary string representing peaks across all channels globally.*/
-                    getMinMaxPeaksInTrimmedRegion: $ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInTrimmedRegion,
+                    getMinMaxPeaksInTrimmedRegion: P_ak_wwise_core_audioSourcePeaks_getMinMaxPeaksInTrimmedRegion,
                 },
                 /** Retrieve global Wwise information.*/
-                getInfo: $ak_wwise_core_getInfo,
+                getInfo: P_ak_wwise_core_getInfo,
                 log: {
                     /** Retrieves the latest log for a specific channel. Refer to ak.wwise.core.log.itemAdded to be notified when a item is added to the log.*/
-                    get: $ak_wwise_core_log_get,
+                    get: P_ak_wwise_core_log_get,
                 },
                 object: {
                     /** Copies an object to the given parent.*/
-                    copy: $ak_wwise_core_object_copy,
+                    copy: P_ak_wwise_core_object_copy,
                     /** Creates an object of type 'type', as a child of 'parent'. Refer to Importing Audio Files and Creating Structures for more information about creating objects. Also refer to ak.wwise.core.audio.import to import audio files to Wwise.*/
-                    create: $ak_wwise_core_object_create,
+                    create: P_ak_wwise_core_object_create,
                     /** Deletes the specified object.*/
-                    delete: $ak_wwise_core_object_delete,
+                    delete: P_ak_wwise_core_object_delete,
                     /** Performs a query and returns specified data for each object in query result. Refer to Querying the Wwise Project for more information.*/
-                    get: $ak_wwise_core_object_get,
+                    get: P_ak_wwise_core_object_get,
                     /** Gets the specified attenuation curve for a given attenuation object.*/
-                    getAttenuationCurve: $ak_wwise_core_object_getAttenuationCurve,
+                    getAttenuationCurve: P_ak_wwise_core_object_getAttenuationCurve,
                     /** Retrieves the list of property and reference names for an object.*/
-                    getPropertyAndReferenceNames: $ak_wwise_core_object_getPropertyAndReferenceNames,
+                    getPropertyAndReferenceNames: P_ak_wwise_core_object_getPropertyAndReferenceNames,
                     /** Retrieves information about an object property.*/
-                    getPropertyInfo: $ak_wwise_core_object_getPropertyInfo,
+                    getPropertyInfo: P_ak_wwise_core_object_getPropertyInfo,
                     getPropertyNames: "This function is deprecated!!!  ak.wwise.core.object.getPropertyNames",
                     /** Returns true if a property is enabled based on the values of the properties it depends on.*/
-                    isPropertyEnabled: $ak_wwise_core_object_isPropertyEnabled,
+                    isPropertyEnabled: P_ak_wwise_core_object_isPropertyEnabled,
                     /** Moves an object to the given parent. Returns the moved object.*/
-                    move: $ak_wwise_core_object_move,
+                    move: P_ak_wwise_core_object_move,
                     /** Sets the specified attenuation curve for a given attenuation object.*/
-                    setAttenuationCurve: $ak_wwise_core_object_setAttenuationCurve,
+                    setAttenuationCurve: P_ak_wwise_core_object_setAttenuationCurve,
                     /** Renames an object.*/
-                    setName: $ak_wwise_core_object_setName,
+                    setName: P_ak_wwise_core_object_setName,
                     /** Sets the object's notes.*/
-                    setNotes: $ak_wwise_core_object_setNotes,
+                    setNotes: P_ak_wwise_core_object_setNotes,
                     /** Sets a property value of an object for a specific platform. Refer to Wwise Objects Reference for more information on the properties available on each object type. Refer to ak.wwise.core.object.setReference to set a reference to an object.*/
-                    setProperty: $ak_wwise_core_object_setProperty,
+                    setProperty: P_ak_wwise_core_object_setProperty,
                     /** Sets the randomizer values of a property of an object for a specific platform. Refer to Wwise Objects Reference for more information on the properties available on each object type.*/
-                    setRandomizer: $ak_wwise_core_object_setRandomizer,
+                    setRandomizer: P_ak_wwise_core_object_setRandomizer,
                     /** Sets an object's reference value. Refer to Wwise Objects Reference for more information on the references available on each object type.*/
-                    setReference: $ak_wwise_core_object_setReference,
+                    setReference: P_ak_wwise_core_object_setReference,
                 },
                 plugin: {
                     getList: "This function is deprecated!!!  ak.wwise.core.plugin.getList",
                 },
                 profiler: {
                     /** Returns the current time of the specified profiler cursor, in milliseconds.*/
-                    getCursorTime: $ak_wwise_core_profiler_getCursorTime,
+                    getCursorTime: P_ak_wwise_core_profiler_getCursorTime,
                     /** Retrieves active RTPCs at a specific profiler capture time.*/
-                    getRTPCs: $ak_wwise_core_profiler_getRTPCs,
+                    getRTPCs: P_ak_wwise_core_profiler_getRTPCs,
                     /** Retrieves all parameters affecting voice volume, highpass and lowpass for a voice path, resolved from pipeline IDs.*/
-                    getVoiceContributions: $ak_wwise_core_profiler_getVoiceContributions,
+                    getVoiceContributions: P_ak_wwise_core_profiler_getVoiceContributions,
                     /** Retrieves the voices at a specific profiler capture time.*/
-                    getVoices: $ak_wwise_core_profiler_getVoices,
+                    getVoices: P_ak_wwise_core_profiler_getVoices,
                     /** Starts the profiler capture and returns the time at the beginning of the capture, in milliseconds.*/
-                    startCapture: $ak_wwise_core_profiler_startCapture,
+                    startCapture: P_ak_wwise_core_profiler_startCapture,
                     /** Stops the profiler capture and returns the time at the end of the capture, in milliseconds.*/
-                    stopCapture: $ak_wwise_core_profiler_stopCapture,
+                    stopCapture: P_ak_wwise_core_profiler_stopCapture,
                 },
                 project: {
                     /** Saves the current project.*/
-                    save: $ak_wwise_core_project_save,
+                    save: P_ak_wwise_core_project_save,
                 },
                 remote: {
                     /** Connects the Wwise Authoring application to a Wwise Sound Engine running executable. The host must be running code with communication enabled. If only "host" is provided, Wwise connects to the first Sound Engine instance found. To distinguish between different instances, you can also provide the name of the application to connect to.*/
-                    connect: $ak_wwise_core_remote_connect,
+                    connect: P_ak_wwise_core_remote_connect,
                     /** Disconnects the Wwise Authoring application from a connected Wwise Sound Engine running executable.*/
-                    disconnect: $ak_wwise_core_remote_disconnect,
+                    disconnect: P_ak_wwise_core_remote_disconnect,
                     /** Retrieves all consoles available for connecting Wwise Authoring to a Sound Engine instance.*/
-                    getAvailableConsoles: $ak_wwise_core_remote_getAvailableConsoles,
+                    getAvailableConsoles: P_ak_wwise_core_remote_getAvailableConsoles,
                     /** Retrieves the connection status.*/
-                    getConnectionStatus: $ak_wwise_core_remote_getConnectionStatus,
+                    getConnectionStatus: P_ak_wwise_core_remote_getConnectionStatus,
                 },
                 soundbank: {
                     /** Generate a list of SoundBank with import definition defined in the WAAPI request. If you choose to not write the soundbanks to disk, subscribe to ak.wwise.core.soundbank.generated to get SoundBank structure info and the bank data as base64.*/
-                    generate: $ak_wwise_core_soundbank_generate,
+                    generate: P_ak_wwise_core_soundbank_generate,
                     /** Retrieves a SoundBank's inclusion list.*/
-                    getInclusions: $ak_wwise_core_soundbank_getInclusions,
+                    getInclusions: P_ak_wwise_core_soundbank_getInclusions,
                     /** Modifies a SoundBank's inclusion list. The 'operation' argument determines how the 'inclusions' argument modifies the SoundBank's inclusion list; 'inclusions' may be added to / removed from / replace the SoundBank's inclusion list.*/
-                    setInclusions: $ak_wwise_core_soundbank_setInclusions,
+                    setInclusions: P_ak_wwise_core_soundbank_setInclusions,
                 },
                 switchContainer: {
                     /** Assigns a Switch Container's child to a Switch. This is the equivalent of doing a drag&drop of the child to a state in the Assigned Objects view. The child is always added at the end for each state.*/
-                    addAssignment: $ak_wwise_core_switchContainer_addAssignment,
+                    addAssignment: P_ak_wwise_core_switchContainer_addAssignment,
                     /** Returns the list of assignments between a Switch Container's children and states.*/
-                    getAssignments: $ak_wwise_core_switchContainer_getAssignments,
+                    getAssignments: P_ak_wwise_core_switchContainer_getAssignments,
                     /** Removes an assignment between a Switch Container's child and a State.*/
-                    removeAssignment: $ak_wwise_core_switchContainer_removeAssignment,
+                    removeAssignment: P_ak_wwise_core_switchContainer_removeAssignment,
                 },
                 transport: {
                     /** Creates a transport object for the given Wwise object. The return transport object can be used to play, stop, pause and resume the Wwise object via the other transport functions.*/
-                    create: $ak_wwise_core_transport_create,
+                    create: P_ak_wwise_core_transport_create,
                     /** Destroys the given transport object.*/
-                    destroy: $ak_wwise_core_transport_destroy,
+                    destroy: P_ak_wwise_core_transport_destroy,
                     /** Executes an action on the given transport object, or all transport objects if none is specified.*/
-                    executeAction: $ak_wwise_core_transport_executeAction,
+                    executeAction: P_ak_wwise_core_transport_executeAction,
                     /** Returns the list of transport objects.*/
-                    getList: $ak_wwise_core_transport_getList,
+                    getList: P_ak_wwise_core_transport_getList,
                     /** Gets the state of the given transport object.*/
-                    getState: $ak_wwise_core_transport_getState,
+                    getState: P_ak_wwise_core_transport_getState,
                 },
                 undo: {
                     /** Begins an undo group. Make sure to call ak.wwise.core.undo.endGroup exactly once for every ak.wwise.core.beginUndoGroup call you make. Calls to ak.wwise.core.undo.beginGroup can be nested.*/
-                    beginGroup: $ak_wwise_core_undo_beginGroup,
+                    beginGroup: P_ak_wwise_core_undo_beginGroup,
                     /** Cancels the last undo group. Please note that this does not revert the operations made since the last ak.wwise.core.undo.beginGroup call.*/
-                    cancelGroup: $ak_wwise_core_undo_cancelGroup,
+                    cancelGroup: P_ak_wwise_core_undo_cancelGroup,
                     /** Ends the last undo group.*/
-                    endGroup: $ak_wwise_core_undo_endGroup,
+                    endGroup: P_ak_wwise_core_undo_endGroup,
                 },
             },
             debug: {
                 /** Enables debug assertions. Every call to enableAsserts with 'false' increments the ref count. Calling with true decrements the ref count. This is only available with Debug builds.*/
-                enableAsserts: $ak_wwise_debug_enableAsserts,
+                enableAsserts: P_ak_wwise_debug_enableAsserts,
                 /** Enables or disables the automation mode for Wwise. This reduces the potential interruptions caused by message boxes and dialogs. For instance, enabling the automation mode silently accepts: project migration, project load log, EULA acceptance, project licence display and generic message boxes.*/
-                enableAutomationMode: $ak_wwise_debug_enableAutomationMode,
+                enableAutomationMode: P_ak_wwise_debug_enableAutomationMode,
                 /** Private use only.*/
-                testAssert: $ak_wwise_debug_testAssert,
+                testAssert: P_ak_wwise_debug_testAssert,
                 /** Private use only.*/
-                testCrash: $ak_wwise_debug_testCrash,
+                testCrash: P_ak_wwise_debug_testCrash,
             },
             ui: {
                 /** Bring Wwise main window to foreground. Refer to SetForegroundWindow and AllowSetForegroundWindow on MSDN for more information on the restrictions. Refer to ak.wwise.core.getInfo to obtain the Wwise process ID for AllowSetForegroundWindow.*/
-                bringToForeground: $ak_wwise_ui_bringToForeground,
+                bringToForeground: P_ak_wwise_ui_bringToForeground,
                 /** Captures a part of the Wwise UI relative to a view.*/
-                captureScreen: $ak_wwise_ui_captureScreen,
+                captureScreen: P_ak_wwise_ui_captureScreen,
                 commands: {
                     /** Executes a command. Some commands can take a list of objects as parameters. Refer to Wwise Authoring Command Identifiers for the available commands.*/
-                    execute: $ak_wwise_ui_commands_execute,
+                    execute: P_ak_wwise_ui_commands_execute,
                     /** Gets the list of commands.*/
-                    getCommands: $ak_wwise_ui_commands_getCommands,
+                    getCommands: P_ak_wwise_ui_commands_getCommands,
                     /** Registers an array of add-on commands. Registered commands remain until the Wwise process is terminated. Refer to Defining Command Add-ons for more information about registering commands. Also refer to ak.wwise.ui.commands.executed.*/
-                    register: $ak_wwise_ui_commands_register,
+                    register: P_ak_wwise_ui_commands_register,
                     /** Unregisters an array of add-on UI commands.*/
-                    unregister: $ak_wwise_ui_commands_unregister,
+                    unregister: P_ak_wwise_ui_commands_unregister,
                 },
                 /** Retrieves the list of objects currently selected by the user in the active view.*/
-                getSelectedObjects: $ak_wwise_ui_getSelectedObjects,
+                getSelectedObjects: P_ak_wwise_ui_getSelectedObjects,
                 project: {
                     /** Closes the current project.*/
-                    close: $ak_wwise_ui_project_close,
+                    close: P_ak_wwise_ui_project_close,
                     /** Opens a project, specified by path. Please refer to ak.wwise.core.project.loaded for further explanations on how to be notified when the operation has completed.*/
-                    open: $ak_wwise_ui_project_open,
+                    open: P_ak_wwise_ui_project_open,
                 },
             },
             waapi: {
                 /** Retrieves the list of functions.*/
-                getFunctions: $ak_wwise_waapi_getFunctions,
+                getFunctions: P_ak_wwise_waapi_getFunctions,
                 /** Retrieves the JSON schema of a Waapi URI.*/
-                getSchema: $ak_wwise_waapi_getSchema,
+                getSchema: P_ak_wwise_waapi_getSchema,
                 /** Retrieves the list of topics to which a client can subscribe. */
-                getTopics: $ak_wwise_waapi_getTopics,
+                getTopics: P_ak_wwise_waapi_getTopics,
             },
         },
     },
 
 }
 
-export { APIs }
+export { APIs_Async }

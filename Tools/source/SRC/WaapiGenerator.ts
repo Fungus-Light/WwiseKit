@@ -299,11 +299,16 @@ function GetAllWwiseObjectDefine(basePath: string, targetFile: string, tabSize: 
     writeFileSync(targetFile, str)
 }
 
-function RenderSchemaToDef(schema: any, name: string) {
+function RenderSchemaToDef(schema: any, name: string ,exp:boolean = true) {
     let str = ""
     let existExparam = false
     if (schema) {
-        str += `export declare interface ${name}{\n`
+        if(exp){
+            str += `export declare interface ${name}{\n`
+        }else{
+            str += `declare interface ${name}{\n`
+        }
+        
 
         let required = schema.required
         let properties = schema.properties
@@ -493,8 +498,154 @@ function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
     let obj = GenJsonFromTokens(waapiTokens)
 
     if (obj) {
-        let ts = "const waapi_functions = { \n" + RenderWaapiJsonToTs(obj, 1, 4,"$") + "\n}"
-        ts += "\n\nexport { waapi_functions }"
+        let ts = "const APIs = { \n" + RenderWaapiJsonToTs(obj, 1, 4,"$") + "\n}"
+        ts += "\n\nexport { APIs }"
+        
+        genedFunctions += "\n\n" + ts
+    }
+
+    writeFileSync(fileName, genedFunctions)
+}
+
+function ConvertWaapiToFunctionPromise(path: string, dir: string, fileName: string) {
+    let result = GetApiFromFile(path)
+
+    let functions: any[] = []
+
+    result.forEach((v) => {
+        if (!v.api.includes("deprecated")) {
+            let functionName = v.api.split(".").join("_")
+            let mainPath = functionName + ".html"
+            let mainFile = join(dir, mainPath)
+
+            if (existsSync(mainFile)) {
+
+                let mainFileStr = readFileSync(mainFile, {
+                    encoding: "utf-8"
+                })
+
+                if (mainFileStr.includes("This function is deprecated")) {
+                    console.log("From ConvertWaapiToFunction: " + v.api + " is deprecated")
+                } else {
+                    let $main = $Load(mainFile)
+                    let desc = $main(".contents .textblock p").first().text()
+
+                    let needArg = false
+                    let needResult = false
+
+                    let argSchemaPath = functionName + "_args_schema.html"
+                    let argfile = join(dir, argSchemaPath)
+
+                    if (existsSync(argfile)) {
+                        needArg = true
+                    } else {
+                        console.log("From ConvertWaapiToFunction: " + argfile + " not found")
+                    }
+
+                    let resultSchemaPath = functionName + "_result_schema.html"
+                    let resultfile = join(dir, resultSchemaPath)
+
+                    if (existsSync(resultfile)) {
+                        needResult = true
+                    } else {
+                        console.log("From ConvertWaapiToFunction: " + resultfile + " not found")
+                    }
+
+                    if ((!needArg) && (!needResult)) {
+                        functions.push({
+                            name: functionName,
+                            desc: desc,
+                            argSchema: null,
+                            resultSchema: null,
+                            api: v.api
+                        })
+                    } else {
+
+                        let argSchema: any = null
+                        let resultSchema: any = null
+
+                        if (needArg) {
+                            argSchema = ParseArgSchema(argfile)
+                        }
+
+                        if (needResult) {
+                            resultSchema = ParseArgSchema(resultfile)
+                        }
+
+                        functions.push({
+                            name: functionName,
+                            desc: desc,
+                            argSchema: argSchema,
+                            resultSchema: resultSchema,
+                            api: v.api
+                        })
+                    }
+                }
+            } else {
+                console.log("From ConvertWaapiToFunction: " + mainFile + " not found")
+            }
+
+        } else {
+            console.log("From ConvertWaapiToFunction: " + v.api + " is deprecated")
+        }
+    })
+
+    let genedFunctions = ""
+
+    genedFunctions += 'import { Session, Result, Error } from "autobahn"\n'
+    genedFunctions += 'import { CallWaapiPromise , JoinArgs ,SimpleSubOptions } from "./Utils"\n\n'
+
+    functions.forEach((v) => {
+
+        if (!v.argSchema && !v.resultSchema) { //无参数无返回值   
+            genedFunctions += "/**\n"
+            genedFunctions += " * " + v.desc + "\n"
+            genedFunctions += " */\n"
+            genedFunctions += "function P_" + v.name + "(session:Session,onComplete?:()=>void){\n"
+            genedFunctions += "\treturn CallWaapiPromise(session, \"" + v.api + "\", null, null, onComplete)\n"
+
+            genedFunctions += "}\n\n"
+        } else {
+            if (v.argSchema) {//有参数
+
+                let argTypeName = v.name + "_Args"
+                let argType = RenderSchemaToDef(v.argSchema, argTypeName,false)[0]
+                let existExparam = RenderSchemaToDef(v.argSchema, argTypeName,false)[1]
+
+                genedFunctions += argType + "\n"
+
+                genedFunctions += "/**\n"
+                genedFunctions += " * " + v.desc + "\n"
+                genedFunctions += " */\n"
+
+                if (existExparam) {
+                    genedFunctions += "function P_" + v.name + `(session:Session,args?:${argTypeName},exArgs?:any,options?:SimpleSubOptions,onComplete?:()=>void){\n`
+                    genedFunctions += "\targs = JoinArgs(args,exArgs)\n"
+                } else {
+                    genedFunctions += "function P_" + v.name + `(session:Session,args?:${argTypeName},options?:SimpleSubOptions,onComplete?:()=>void){\n`
+                }
+
+                genedFunctions += "\treturn CallWaapiPromise(session, \"" + v.api + "\", args, options, onComplete)\n"
+                genedFunctions += "}\n\n"
+            } else {
+
+                genedFunctions += "/**\n"
+                genedFunctions += " * " + v.desc + "\n"
+                genedFunctions += " */\n"
+
+                genedFunctions += "function P_" + v.name + "(session:Session,onComplete?:()=>void){\n"
+                genedFunctions += "\treturn CallWaapiPromise(session, \"" + v.api + "\", null, null, onComplete)\n"
+                genedFunctions += "}\n\n"
+            }
+        }
+    })
+
+    let waapiTokens = CreateWaapiTokenList(result)
+    let obj = GenJsonFromTokens(waapiTokens)
+
+    if (obj) {
+        let ts = "const APIs_Async = { \n" + RenderWaapiJsonToTs(obj, 1, 4,"P_") + "\n}"
+        ts += "\n\nexport { APIs_Async }"
         
         genedFunctions += "\n\n" + ts
     }
@@ -557,5 +708,6 @@ export {
     ParseAllWwiseObj,
     GetAllWwiseObjectDefine,
     ConvertWaapiToFunction,
-    ConvertTopicsToFunction
+    ConvertTopicsToFunction,
+    ConvertWaapiToFunctionPromise
 }

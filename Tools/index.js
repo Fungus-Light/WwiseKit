@@ -13382,12 +13382,17 @@ function GetAllWwiseObjectDefine(basePath, targetFile, tabSize = 4) {
   });
   (0, import_fs2.writeFileSync)(targetFile, str);
 }
-function RenderSchemaToDef(schema, name) {
+function RenderSchemaToDef(schema, name, exp = true) {
   let str = "";
   let existExparam = false;
   if (schema) {
-    str += `export declare interface ${name}{
+    if (exp) {
+      str += `export declare interface ${name}{
 `;
+    } else {
+      str += `declare interface ${name}{
+`;
+    }
     let required = schema.required;
     let properties = schema.properties;
     for (let key in properties) {
@@ -13538,8 +13543,123 @@ function ConvertWaapiToFunction(path, dir, fileName) {
   let waapiTokens = CreateWaapiTokenList(result);
   let obj = GenJsonFromTokens(waapiTokens);
   if (obj) {
-    let ts = "const waapi_functions = { \n" + RenderWaapiJsonToTs(obj, 1, 4, "$") + "\n}";
-    ts += "\n\nexport { waapi_functions }";
+    let ts = "const APIs = { \n" + RenderWaapiJsonToTs(obj, 1, 4, "$") + "\n}";
+    ts += "\n\nexport { APIs }";
+    genedFunctions += "\n\n" + ts;
+  }
+  (0, import_fs2.writeFileSync)(fileName, genedFunctions);
+}
+function ConvertWaapiToFunctionPromise(path, dir, fileName) {
+  let result = GetApiFromFile(path);
+  let functions = [];
+  result.forEach((v) => {
+    if (!v.api.includes("deprecated")) {
+      let functionName = v.api.split(".").join("_");
+      let mainPath = functionName + ".html";
+      let mainFile = (0, import_path.join)(dir, mainPath);
+      if ((0, import_fs2.existsSync)(mainFile)) {
+        let mainFileStr = (0, import_fs2.readFileSync)(mainFile, {
+          encoding: "utf-8"
+        });
+        if (mainFileStr.includes("This function is deprecated")) {
+          console.log("From ConvertWaapiToFunction: " + v.api + " is deprecated");
+        } else {
+          let $main = $Load(mainFile);
+          let desc = $main(".contents .textblock p").first().text();
+          let needArg = false;
+          let needResult = false;
+          let argSchemaPath = functionName + "_args_schema.html";
+          let argfile = (0, import_path.join)(dir, argSchemaPath);
+          if ((0, import_fs2.existsSync)(argfile)) {
+            needArg = true;
+          } else {
+            console.log("From ConvertWaapiToFunction: " + argfile + " not found");
+          }
+          let resultSchemaPath = functionName + "_result_schema.html";
+          let resultfile = (0, import_path.join)(dir, resultSchemaPath);
+          if ((0, import_fs2.existsSync)(resultfile)) {
+            needResult = true;
+          } else {
+            console.log("From ConvertWaapiToFunction: " + resultfile + " not found");
+          }
+          if (!needArg && !needResult) {
+            functions.push({
+              name: functionName,
+              desc,
+              argSchema: null,
+              resultSchema: null,
+              api: v.api
+            });
+          } else {
+            let argSchema = null;
+            let resultSchema = null;
+            if (needArg) {
+              argSchema = ParseArgSchema(argfile);
+            }
+            if (needResult) {
+              resultSchema = ParseArgSchema(resultfile);
+            }
+            functions.push({
+              name: functionName,
+              desc,
+              argSchema,
+              resultSchema,
+              api: v.api
+            });
+          }
+        }
+      } else {
+        console.log("From ConvertWaapiToFunction: " + mainFile + " not found");
+      }
+    } else {
+      console.log("From ConvertWaapiToFunction: " + v.api + " is deprecated");
+    }
+  });
+  let genedFunctions = "";
+  genedFunctions += 'import { Session, Result, Error } from "autobahn"\n';
+  genedFunctions += 'import { CallWaapiPromise , JoinArgs ,SimpleSubOptions } from "./Utils"\n\n';
+  functions.forEach((v) => {
+    if (!v.argSchema && !v.resultSchema) {
+      genedFunctions += "/**\n";
+      genedFunctions += " * " + v.desc + "\n";
+      genedFunctions += " */\n";
+      genedFunctions += "function P_" + v.name + "(session:Session,onComplete?:()=>void){\n";
+      genedFunctions += '	return CallWaapiPromise(session, "' + v.api + '", null, null, onComplete)\n';
+      genedFunctions += "}\n\n";
+    } else {
+      if (v.argSchema) {
+        let argTypeName = v.name + "_Args";
+        let argType = RenderSchemaToDef(v.argSchema, argTypeName, false)[0];
+        let existExparam = RenderSchemaToDef(v.argSchema, argTypeName, false)[1];
+        genedFunctions += argType + "\n";
+        genedFunctions += "/**\n";
+        genedFunctions += " * " + v.desc + "\n";
+        genedFunctions += " */\n";
+        if (existExparam) {
+          genedFunctions += "function P_" + v.name + `(session:Session,args?:${argTypeName},exArgs?:any,options?:SimpleSubOptions,onComplete?:()=>void){
+`;
+          genedFunctions += "	args = JoinArgs(args,exArgs)\n";
+        } else {
+          genedFunctions += "function P_" + v.name + `(session:Session,args?:${argTypeName},options?:SimpleSubOptions,onComplete?:()=>void){
+`;
+        }
+        genedFunctions += '	return CallWaapiPromise(session, "' + v.api + '", args, options, onComplete)\n';
+        genedFunctions += "}\n\n";
+      } else {
+        genedFunctions += "/**\n";
+        genedFunctions += " * " + v.desc + "\n";
+        genedFunctions += " */\n";
+        genedFunctions += "function P_" + v.name + "(session:Session,onComplete?:()=>void){\n";
+        genedFunctions += '	return CallWaapiPromise(session, "' + v.api + '", null, null, onComplete)\n';
+        genedFunctions += "}\n\n";
+      }
+    }
+  });
+  let waapiTokens = CreateWaapiTokenList(result);
+  let obj = GenJsonFromTokens(waapiTokens);
+  if (obj) {
+    let ts = "const APIs_Async = { \n" + RenderWaapiJsonToTs(obj, 1, 4, "P_") + "\n}";
+    ts += "\n\nexport { APIs_Async }";
     genedFunctions += "\n\n" + ts;
   }
   (0, import_fs2.writeFileSync)(fileName, genedFunctions);
@@ -13587,5 +13707,6 @@ console.log("Wwise Tools By Fungus Light!!!!!");
 GetWaapiReference_Functions("./chm/out/waapi_functions_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_functions_names.ts");
 GetWaapiReference_Topics("./chm/out/waapi_topics_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_topics_names.ts");
 ConvertWaapiToFunction("./chm/out/waapi_functions_index.html", "./chm/out/", "../Typescript_2019_2/SRC/Wwise/waapi_apis.ts");
+ConvertWaapiToFunctionPromise("./chm/out/waapi_functions_index.html", "./chm/out/", "../Typescript_2019_2/SRC/Wwise/waapi_apis_promise.ts");
 GetAllWwiseObjectDefine("./chm/out/", "../Typescript_2019_2/@types/WwiseObjects/AllWwiseObject.d.ts");
 ConvertTopicsToFunction("./chm/out/waapi_topics_index.html", "./chm/out/", "../Typescript_2019_2/SRC/Wwise/waapi_apis_topics.ts");
