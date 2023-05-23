@@ -49,77 +49,6 @@ function SimpleConnect(url, action) {
 var DEFAULT_URL = "ws://localhost:8080/waapi";
 var Log = console.log;
 
-// SRC/Wwise/WwiseObjectsReference.ts
-var WwiseTypes = {
-  AcousticTexture: "AcousticTexture",
-  Action: "Action",
-  ActionException: "ActionException",
-  ActorMixer: "ActorMixer",
-  Attenuation: "Attenuation",
-  AudioDevice: "AudioDevice",
-  AudioSource: "AudioSource",
-  AuxBus: "AuxBus",
-  BlendContainer: "BlendContainer",
-  BlendTrack: "BlendTrack",
-  Bus: "Bus",
-  ControlSurfaceBinding: "ControlSurfaceBinding",
-  ControlSurfaceBindingGroup: "ControlSurfaceBindingGroup",
-  ControlSurfaceSession: "ControlSurfaceSession",
-  Conversion: "Conversion",
-  Curve: "Curve",
-  CustomState: "CustomState",
-  DialogueEvent: "DialogueEvent",
-  Effect: "Effect",
-  Event: "Event",
-  ExternalSource: "ExternalSource",
-  ExternalSourceFile: "ExternalSourceFile",
-  Folder: "Folder",
-  GameParameter: "GameParameter",
-  Language: "Language",
-  MidiParameter: "MidiParameter",
-  MixingSession: "MixingSession",
-  Modifier: "Modifier",
-  ModulatorEnvelope: "ModulatorEnvelope",
-  ModulatorLfo: "ModulatorLfo",
-  ModulatorTime: "ModulatorTime",
-  MultiSwitchEntry: "MultiSwitchEntry",
-  MusicClip: "MusicClip",
-  MusicClipMidi: "MusicClipMidi",
-  MusicCue: "MusicCue",
-  MusicEventCue: "MusicEventCue",
-  MusicFade: "MusicFade",
-  MusicPlaylistContainer: "MusicPlaylistContainer",
-  MusicPlaylistItem: "MusicPlaylistItem",
-  MusicSegment: "MusicSegment",
-  MusicStinger: "MusicStinger",
-  MusicSwitchContainer: "MusicSwitchContainer",
-  MusicTrack: "MusicTrack",
-  MusicTrackSequence: "MusicTrackSequence",
-  MusicTransition: "MusicTransition",
-  ObjectSettingAssoc: "ObjectSettingAssoc",
-  Panner: "Panner",
-  ParamControl: "ParamControl",
-  Path: "Path",
-  Platform: "Platform",
-  PluginDataSource: "PluginDataSource",
-  Position: "Position",
-  Project: "Project",
-  Query: "Query",
-  RandomSequenceContainer: "RandomSequenceContainer",
-  SearchCriteria: "SearchCriteria",
-  Sound: "Sound",
-  SoundBank: "SoundBank",
-  SoundcasterSession: "SoundcasterSession",
-  State: "State",
-  StateGroup: "StateGroup",
-  Switch: "Switch",
-  SwitchContainer: "SwitchContainer",
-  SwitchGroup: "SwitchGroup",
-  Trigger: "Trigger",
-  UserProjectSettings: "UserProjectSettings",
-  WorkUnit: "WorkUnit"
-};
-
 // SRC/Wwise/waapi_apis_promise.ts
 function P_ak_soundengine_executeActionOnEvent(session, args, options, onComplete) {
   return CallWaapiPromise(session, "ak.soundengine.executeActionOnEvent", args, options, onComplete);
@@ -506,42 +435,9 @@ var APIs_Async = {
 };
 
 // SRC/index.ts
-SimpleConnect(DEFAULT_URL, Main);
-async function Main(session, connection) {
-  try {
-    let selects = await APIs_Async.ak.wwise.ui.getSelectedObjects(session);
-    let objects = selects.kwargs.objects;
-    for (let i = 0; i < objects.length; i++) {
-      let obj = objects[i];
-      let id = obj.id;
-      let checkResult = await APIs_Async.ak.wwise.core.object.get(session, { from: { id: [id] } }, { return: ["id", "type"] });
-      let type = checkResult.kwargs.return[0].type;
-      if (type == WwiseTypes.Event) {
-        let name = obj.name;
-        let args = {
-          parent: "{39003BC1-0B4E-4863-A33B-7C29B1B62FFD}",
-          type: WwiseTypes.SoundBank,
-          name
-        };
-        let createResult = await APIs_Async.ak.wwise.core.object.create(session, args);
-        let soundBankId = createResult.kwargs.id;
-        let inclusionArgs = {
-          soundbank: soundBankId,
-          operation: "add",
-          inclusions: [
-            {
-              object: id,
-              filter: ["events", "structures", "media"]
-            }
-          ]
-        };
-        let setInclusionResult = await APIs_Async.ak.wwise.core.soundbank.setInclusions(session, inclusionArgs);
-        Log("Set SoundBank Success : ", name);
-      }
-    }
-    connection.close();
-  } catch (err) {
-    Log("Error: ", err);
-    connection.close();
-  }
+SimpleConnect(DEFAULT_URL, HelloWwise);
+async function HelloWwise(session, connection) {
+  let info = await APIs_Async.ak.wwise.core.getInfo(session);
+  Log("Hello Wwise! Version: ", info.kwargs.version.displayName);
+  connection.close();
 }
