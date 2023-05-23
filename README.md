@@ -4,6 +4,10 @@ WwiseKit 是一套开发中的wwise工具合集
 
 使用typescript开发，支持nodejs环境
 
+### 支持版本
+
+- 2019.2
+
 ### Features
 
 - 提供了一个工具，可以从wwise的文档chm里导出所有的waapi ，并且以函数形式呈现
@@ -16,7 +20,7 @@ WwiseKit 是一套开发中的wwise工具合集
 
 - 安装 [nodejs](https://nodejs.org/) 和 [Typescript](https://www.typescriptlang.org/)，如果是中国用户，还需要设置 [cnpm](https://npmmirror.com/)
 
-- 下载release包，解压到本地
+- 下载 [release](https://github.com/Fungus-Light/WwiseKit/releases) 包，解压到本地
 
 - 安装依赖
 ```bash
@@ -45,10 +49,18 @@ Connection closed. Reason: closed
 
 包含了一些重要的基础内容，还有一些对官方文档的复刻（施工中）
 
-施工进度：[progress](./progress.md)
+官方文档: [DOC](https://www.audiokinetic.com/zh/library/2019.2.15_7667/?source=SDK&id=waapi_example_index.html)
+
+施工进度：[progress](./progress.md) 
 
 - 建立连接
 
     [p1_CreateConnection.ts](./Typescript_2019_2/SRC/Examples/p1_CreateConnection.ts)
 
 - 
+
+### TODO
+
+更完善的类型约束
+
+支持更高版本的wwise（目前仅支持 2019.2 ）
