@@ -1,6 +1,6 @@
-- [ ] 将 Custom Cue 添加到现有 Music Segment
+- [ ] ~~将 Custom Cue 添加到现有 Music Segment~~  (2019.2 不支持)
 
-- [ ] 将对象添加到 Inclusion 列表
+- [x] 将对象添加到 Inclusion 列表
 
 - [ ] 将带有曲线的 RTPC 添加到对象
 
