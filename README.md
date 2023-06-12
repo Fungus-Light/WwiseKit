@@ -57,10 +57,19 @@ Connection closed. Reason: closed
 
     [p1_CreateConnection.ts](./Typescript_2019_2/SRC/Examples/p1_CreateConnection.ts)
 
-- 
+- 将对象添加到 Inclusion 列表
+
+    [doc1_set_soundbank_inclusions.ts](./Typescript_2019_2/SRC/Examples/doc1_set_soundbank_inclusions.ts)
+
+- 将 Switch Container 的子对象指派给 State
+    [doc2_assigning_switch_container_child_to_state.ts](./Typescript_2019_2/SRC/Examples/doc2_assigning_switch_container_child_to_state.ts)
 
 ### TODO
 
 更完善的类型约束
 
 支持更高版本的wwise（目前仅支持 2019.2 ）
+
+支持导出到C#版本
+
+?? autobahn的替代品

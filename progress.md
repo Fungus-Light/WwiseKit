@@ -6,7 +6,7 @@
 
 - [ ] 将带有曲线的 RTPC 添加到对象并创建新的 Custom ControlInput
 
-- [ ] 将 Switch Container 的子对象指派给 State
+- [x] 将 Switch Container 的子对象指派给 State
 
 - [ ] 批量创建子对象层级结构
 
