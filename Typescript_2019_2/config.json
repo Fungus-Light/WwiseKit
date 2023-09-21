@@ -7,6 +7,6 @@
     "format": "cjs",
     "bundle": true,
     "external": [
-        "autobahn"
+        
     ]
 }

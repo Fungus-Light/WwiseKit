@@ -48,5 +48,6 @@ require('esbuild').build({
     format: cfg.format,
     outfile: cfg.outfile,
     external: cfg.external,
+    platform:"node"
 }).then(result => {
 })

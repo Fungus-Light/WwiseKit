@@ -9,6 +9,6 @@
     "outDir": "./dist",
     "typeRoots": ["./node_modules/@types"],
     "baseUrl": "./SRC",
-    "allowJs": false
+    "allowJs": true,
   },
 }
