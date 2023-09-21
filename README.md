@@ -72,4 +72,4 @@ Connection closed. Reason: closed
 
 支持导出到C#版本
 
-?? autobahn的替代品
+~~autobahn的替代品~~  (已经可以脱离node_modules使用)
