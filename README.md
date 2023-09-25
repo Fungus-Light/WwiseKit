@@ -6,6 +6,7 @@ WwiseKit 是一套开发中的wwise工具合集
 
 ### 支持版本
 
+- 2022.1
 - 2019.2
 
 ### Features
@@ -34,7 +35,7 @@ npm start
 
 你应当能看到控制台输出
 ```bash
-Hello Wwise! Version:  v2019.2.14
+Hello Wwise! Version:  v20XX.X.XX
 connection closed closed {
   reason: 'wamp.error.goodbye_and_out',
   message: '',
@@ -68,7 +69,7 @@ Connection closed. Reason: closed
 
 更完善的类型约束
 
-支持更高版本的wwise（目前仅支持 2019.2 ）
+支持更高版本的wwise（目前支持 2019.2 2022.1）
 
 支持导出到C#版本
 

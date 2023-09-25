@@ -13272,8 +13272,16 @@ function GetWaapiReference_Topics(path, fileName) {
 function ParseArgSchema(path) {
   const $2 = $Load(path);
   let schema = $2(".fragment").first().text();
-  let obj = JSON.parse(schema);
-  return obj;
+  schema = schema.replace(/\\\</g, "\\\\<");
+  try {
+    let obj = JSON.parse(schema);
+    return obj;
+  } catch (e) {
+    console.log("\n!!!!!!!!: " + path + " parse failed\n");
+    let file = (0, import_path.basename)(path);
+    (0, import_fs2.writeFileSync)("debug/" + file + ".json", schema);
+    return null;
+  }
 }
 function GetObjectJson(path) {
   const $2 = $Load(path);
@@ -13336,9 +13344,11 @@ var typeModify = {
   "int64": "number",
   "Uint16": "number",
   "Uint32": "number",
+  "Uint64": "number",
   "Reference": "any",
   "integer": "number",
-  "array": "Array<any>"
+  "array": "Array<any>",
+  "List": "Array<any>"
 };
 function GetTypeAlias(type) {
   if (typeModify[type]) {
@@ -13704,9 +13714,20 @@ function ConvertTopicsToFunction(path, dir, fileName) {
 
 // index.ts
 console.log("Wwise Tools By Fungus Light!!!!!");
-GetWaapiReference_Functions("./chm/out/waapi_functions_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_functions_names.ts");
-GetWaapiReference_Topics("./chm/out/waapi_topics_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_topics_names.ts");
-ConvertWaapiToFunction("./chm/out/waapi_functions_index.html", "./chm/out/", "../Typescript_2019_2/SRC/Wwise/waapi_apis.ts");
-ConvertWaapiToFunctionPromise("./chm/out/waapi_functions_index.html", "./chm/out/", "../Typescript_2019_2/SRC/Wwise/waapi_apis_promise.ts");
-GetAllWwiseObjectDefine("./chm/out/", "../Typescript_2019_2/@types/WwiseObjects/AllWwiseObject.d.ts");
-ConvertTopicsToFunction("./chm/out/waapi_topics_index.html", "./chm/out/", "../Typescript_2019_2/SRC/Wwise/waapi_apis_topics.ts");
+if (process.argv[2] == "19") {
+  GetWaapiReference_Functions("./chm/out_19_2/waapi_functions_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_functions_names.ts");
+  GetWaapiReference_Topics("./chm/out_19_2/waapi_topics_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_topics_names.ts");
+  ConvertWaapiToFunction("./chm/out_19_2/waapi_functions_index.html", "./chm/out_19_2/", "../Typescript_2019_2/SRC/Wwise/waapi_apis.ts");
+  ConvertWaapiToFunctionPromise("./chm/out_19_2/waapi_functions_index.html", "./chm/out_19_2/", "../Typescript_2019_2/SRC/Wwise/waapi_apis_promise.ts");
+  GetAllWwiseObjectDefine("./chm/out_19_2/", "../Typescript_2019_2/@types/WwiseObjects/AllWwiseObject.d.ts");
+  ConvertTopicsToFunction("./chm/out_19_2/waapi_topics_index.html", "./chm/out_19_2/", "../Typescript_2019_2/SRC/Wwise/waapi_apis_topics.ts");
+} else if (process.argv[2] == "22") {
+  GetWaapiReference_Functions("./chm/out_22_1/waapi_functions_index.html", "../Typescript_2022_1/SRC/Wwise/waapi_functions_names.ts");
+  GetWaapiReference_Topics("./chm/out_22_1/waapi_topics_index.html", "../Typescript_2022_1/SRC/Wwise/waapi_topics_names.ts");
+  ConvertWaapiToFunction("./chm/out_22_1/waapi_functions_index.html", "./chm/out_22_1/", "../Typescript_2022_1/SRC/Wwise/waapi_apis.ts");
+  ConvertWaapiToFunctionPromise("./chm/out_22_1/waapi_functions_index.html", "./chm/out_22_1/", "../Typescript_2022_1/SRC/Wwise/waapi_apis_promise.ts");
+  GetAllWwiseObjectDefine("./chm/out_22_1/", "../Typescript_2022_1/@types/WwiseObjects/AllWwiseObject.d.ts");
+  ConvertTopicsToFunction("./chm/out_22_1/waapi_topics_index.html", "./chm/out_22_1/", "../Typescript_2022_1/SRC/Wwise/waapi_apis_topics.ts");
+} else {
+  console.log("Please input 19 for 2019.2.x, 22 for 2022.1.x");
+}

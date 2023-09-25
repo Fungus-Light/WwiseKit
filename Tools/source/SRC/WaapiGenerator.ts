@@ -1,6 +1,6 @@
 import { $Load, $Parse } from "./Utils/CheerioHelper";
 import { writeFileSync, readdirSync, existsSync, readFileSync } from "fs"
-import { join, resolve } from "path"
+import { join, resolve, basename } from "path"
 import { Tabletojson } from "tabletojson";
 import { RemoveAllEmpty } from "./Utils/StringHelper";
 
@@ -87,12 +87,12 @@ function GenJsonFromTokens(tokens: WaapiToken[]) {
     return json
 }
 
-let filter:any = {
-    ["ak.wwise.core.object.getPropertyNames"] : true,
-    ["ak.wwise.core.plugin.getList"] : true,
+let filter: any = {
+    ["ak.wwise.core.object.getPropertyNames"]: true,
+    ["ak.wwise.core.plugin.getList"]: true,
 }
 
-function RenderWaapiJsonToTs(obj: any, layer: number, tabSize: number = 4, prefix:string = "$",keepStr:boolean = false) {
+function RenderWaapiJsonToTs(obj: any, layer: number, tabSize: number = 4, prefix: string = "$", keepStr: boolean = false) {
     let str = ""
     for (let key in obj) {
         let value = obj[key]
@@ -100,22 +100,22 @@ function RenderWaapiJsonToTs(obj: any, layer: number, tabSize: number = 4, prefi
             if (value.desc && value.api) {
                 let desc = value.desc
                 let api = value.api
-                if (!filter[api]){
+                if (!filter[api]) {
                     let functionName = prefix + (api as string).replaceAll(".", "_")
                     str += " ".repeat(layer * tabSize) + "/** " + desc + "*/\n"
-                    if(keepStr){
+                    if (keepStr) {
                         str += " ".repeat(layer * tabSize) + key + ": \"" + api + "\",\n"
-                    }else{
+                    } else {
                         str += " ".repeat(layer * tabSize) + key + ": " + functionName + ",\n"
                     }
-                    
-                }else{
+
+                } else {
                     str += " ".repeat(layer * tabSize) + key + ": \"This function is deprecated!!!  " + api + "\",\n"
                 }
-                
+
             } else {
                 str += " ".repeat(layer * tabSize) + key + ": {\n"
-                str += RenderWaapiJsonToTs(value, layer + 1, tabSize,prefix,keepStr)
+                str += RenderWaapiJsonToTs(value, layer + 1, tabSize, prefix, keepStr)
                 str += " ".repeat(layer * tabSize) + "},\n"
             }
         }
@@ -130,7 +130,7 @@ function GetWaapiReference_Functions(path: string, fileName: string) {
     let obj = GenJsonFromTokens(waapiTokens)
 
     if (obj) {
-        let ts = "const waapi_functions_names = { \n" + RenderWaapiJsonToTs(obj, 1, 4,"",true) + "\n}"
+        let ts = "const waapi_functions_names = { \n" + RenderWaapiJsonToTs(obj, 1, 4, "", true) + "\n}"
         ts += "\n\nexport { waapi_functions_names }"
         writeFileSync(fileName, ts)
     }
@@ -143,7 +143,7 @@ function GetWaapiReference_Topics(path: string, fileName: string) {
     let obj = GenJsonFromTokens(waapiTokens)
 
     if (obj) {
-        let ts = "const waapi_topics_names = { \n" + RenderWaapiJsonToTs(obj, 1, 4,"",true) + "\n}"
+        let ts = "const waapi_topics_names = { \n" + RenderWaapiJsonToTs(obj, 1, 4, "", true) + "\n}"
         ts += "\n\nexport { waapi_topics_names }"
         writeFileSync(fileName, ts)
     }
@@ -152,11 +152,21 @@ function GetWaapiReference_Topics(path: string, fileName: string) {
 function ParseArgSchema(path: string) {
     const $ = $Load(path)
     let schema = $(".fragment").first().text()
+    schema = schema.replace(/\\\</g,"\\\\<")
     //console.log(schema)
     //writeFileSync("schema.json", schema)
-    let obj = JSON.parse(schema)
+    try {
+        let obj = JSON.parse(schema)
+        return obj
+    } catch (e) {
+        console.log("\n!!!!!!!!: " + path + " parse failed\n")
+        let file = basename(path)
+        writeFileSync("debug/" + file + ".json", schema)
+        return null
+    }
+
     //console.log(obj)
-    return obj
+
 }
 
 function GetObjectJson(path: string) {
@@ -234,9 +244,11 @@ let typeModify: any = {
     "int64": "number",
     "Uint16": "number",
     "Uint32": "number",
+    "Uint64": "number",
     "Reference": "any",
     "integer": "number",
-    "array": "Array<any>"
+    "array": "Array<any>",
+    "List": "Array<any>",
 }
 
 function GetTypeAlias(type: string) {
@@ -299,16 +311,16 @@ function GetAllWwiseObjectDefine(basePath: string, targetFile: string, tabSize: 
     writeFileSync(targetFile, str)
 }
 
-function RenderSchemaToDef(schema: any, name: string ,exp:boolean = true) {
+function RenderSchemaToDef(schema: any, name: string, exp: boolean = true) {
     let str = ""
     let existExparam = false
     if (schema) {
-        if(exp){
+        if (exp) {
             str += `export declare interface ${name}{\n`
-        }else{
+        } else {
             str += `declare interface ${name}{\n`
         }
-        
+
 
         let required = schema.required
         let properties = schema.properties
@@ -498,9 +510,9 @@ function ConvertWaapiToFunction(path: string, dir: string, fileName: string) {
     let obj = GenJsonFromTokens(waapiTokens)
 
     if (obj) {
-        let ts = "const APIs = { \n" + RenderWaapiJsonToTs(obj, 1, 4,"$") + "\n}"
+        let ts = "const APIs = { \n" + RenderWaapiJsonToTs(obj, 1, 4, "$") + "\n}"
         ts += "\n\nexport { APIs }"
-        
+
         genedFunctions += "\n\n" + ts
     }
 
@@ -609,8 +621,8 @@ function ConvertWaapiToFunctionPromise(path: string, dir: string, fileName: stri
             if (v.argSchema) {//有参数
 
                 let argTypeName = v.name + "_Args"
-                let argType = RenderSchemaToDef(v.argSchema, argTypeName,false)[0]
-                let existExparam = RenderSchemaToDef(v.argSchema, argTypeName,false)[1]
+                let argType = RenderSchemaToDef(v.argSchema, argTypeName, false)[0]
+                let existExparam = RenderSchemaToDef(v.argSchema, argTypeName, false)[1]
 
                 genedFunctions += argType + "\n"
 
@@ -644,9 +656,9 @@ function ConvertWaapiToFunctionPromise(path: string, dir: string, fileName: stri
     let obj = GenJsonFromTokens(waapiTokens)
 
     if (obj) {
-        let ts = "const APIs_Async = { \n" + RenderWaapiJsonToTs(obj, 1, 4,"P_") + "\n}"
+        let ts = "const APIs_Async = { \n" + RenderWaapiJsonToTs(obj, 1, 4, "P_") + "\n}"
         ts += "\n\nexport { APIs_Async }"
-        
+
         genedFunctions += "\n\n" + ts
     }
 
@@ -691,7 +703,7 @@ function ConvertTopicsToFunction(path: string, dir: string, fileName: string) {
     let obj = GenJsonFromTokens(waapiTokens)
 
     if (obj) {
-        let ts = "const waapi_topics = { \n" + RenderWaapiJsonToTs(obj, 1, 4,"T_") + "\n}"
+        let ts = "const waapi_topics = { \n" + RenderWaapiJsonToTs(obj, 1, 4, "T_") + "\n}"
         ts += "\n\nexport { waapi_topics }"
 
         genedFunctions += ("\n\n" + ts)
