@@ -13272,7 +13272,7 @@ function GetWaapiReference_Topics(path, fileName) {
 function ParseArgSchema(path) {
   const $2 = $Load(path);
   let schema = $2(".fragment").first().text();
-  schema = schema.replace(/\\\</g, "\\\\<");
+  schema = schema.replace(/\\\\\\\\/g, "$$4$$").replace(/\\\\\\/g, "\\\\\\\\").replaceAll("$$4$$", "\\\\\\\\");
   try {
     let obj = JSON.parse(schema);
     return obj;
@@ -13714,20 +13714,22 @@ function ConvertTopicsToFunction(path, dir, fileName) {
 
 // index.ts
 console.log("Wwise Tools By Fungus Light!!!!!");
-if (process.argv[2] == "19") {
-  GetWaapiReference_Functions("./chm/out_19_2/waapi_functions_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_functions_names.ts");
-  GetWaapiReference_Topics("./chm/out_19_2/waapi_topics_index.html", "../Typescript_2019_2/SRC/Wwise/waapi_topics_names.ts");
-  ConvertWaapiToFunction("./chm/out_19_2/waapi_functions_index.html", "./chm/out_19_2/", "../Typescript_2019_2/SRC/Wwise/waapi_apis.ts");
-  ConvertWaapiToFunctionPromise("./chm/out_19_2/waapi_functions_index.html", "./chm/out_19_2/", "../Typescript_2019_2/SRC/Wwise/waapi_apis_promise.ts");
-  GetAllWwiseObjectDefine("./chm/out_19_2/", "../Typescript_2019_2/@types/WwiseObjects/AllWwiseObject.d.ts");
-  ConvertTopicsToFunction("./chm/out_19_2/waapi_topics_index.html", "./chm/out_19_2/", "../Typescript_2019_2/SRC/Wwise/waapi_apis_topics.ts");
-} else if (process.argv[2] == "22") {
-  GetWaapiReference_Functions("./chm/out_22_1/waapi_functions_index.html", "../Typescript_2022_1/SRC/Wwise/waapi_functions_names.ts");
-  GetWaapiReference_Topics("./chm/out_22_1/waapi_topics_index.html", "../Typescript_2022_1/SRC/Wwise/waapi_topics_names.ts");
-  ConvertWaapiToFunction("./chm/out_22_1/waapi_functions_index.html", "./chm/out_22_1/", "../Typescript_2022_1/SRC/Wwise/waapi_apis.ts");
-  ConvertWaapiToFunctionPromise("./chm/out_22_1/waapi_functions_index.html", "./chm/out_22_1/", "../Typescript_2022_1/SRC/Wwise/waapi_apis_promise.ts");
-  GetAllWwiseObjectDefine("./chm/out_22_1/", "../Typescript_2022_1/@types/WwiseObjects/AllWwiseObject.d.ts");
-  ConvertTopicsToFunction("./chm/out_22_1/waapi_topics_index.html", "./chm/out_22_1/", "../Typescript_2022_1/SRC/Wwise/waapi_apis_topics.ts");
+function GenWwiseKitByVersion(inputPath, outputPath) {
+  GetWaapiReference_Functions(inputPath + "waapi_functions_index.html", outputPath + "SRC/Wwise/waapi_functions_names.ts");
+  GetWaapiReference_Topics(inputPath + "waapi_topics_index.html", outputPath + "SRC/Wwise/waapi_topics_names.ts");
+  ConvertWaapiToFunction(inputPath + "waapi_functions_index.html", inputPath, outputPath + "SRC/Wwise/waapi_apis.ts");
+  ConvertWaapiToFunctionPromise(inputPath + "waapi_functions_index.html", inputPath, outputPath + "SRC/Wwise/waapi_apis_promise.ts");
+  GetAllWwiseObjectDefine(inputPath, outputPath + "@types/WwiseObjects/AllWwiseObject.d.ts");
+  ConvertTopicsToFunction(inputPath + "waapi_topics_index.html", inputPath, outputPath + "SRC/Wwise/waapi_apis_topics.ts");
+}
+var config = {
+  ["19"]: { input: "./chm/out_19_2/", output: "../Typescript_2019_2/" },
+  ["22"]: { input: "./chm/out_22_1/", output: "../Typescript_2022_1/" }
+};
+var version = process.argv[2];
+if (config[version] != void 0) {
+  let cfg = config[version];
+  GenWwiseKitByVersion(cfg.input, cfg.output);
 } else {
-  console.log("Please input 19 for 2019.2.x, 22 for 2022.1.x");
+  console.log("Please input valid version number, eg. 19 for 2019.2.x, 22 for 2022.1.x");
 }

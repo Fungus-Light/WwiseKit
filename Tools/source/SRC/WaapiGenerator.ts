@@ -152,9 +152,11 @@ function GetWaapiReference_Topics(path: string, fileName: string) {
 function ParseArgSchema(path: string) {
     const $ = $Load(path)
     let schema = $(".fragment").first().text()
-    schema = schema.replace(/\\\</g,"\\\\<")
-    //console.log(schema)
-    //writeFileSync("schema.json", schema)
+
+    schema = schema
+            .replace(/\\\\\\\\/g, "$$4$$")
+            .replace(/\\\\\\/g, "\\\\\\\\")
+            .replaceAll("$$4$$","\\\\\\\\")
     try {
         let obj = JSON.parse(schema)
         return obj
